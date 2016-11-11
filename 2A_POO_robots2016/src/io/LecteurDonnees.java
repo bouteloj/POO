@@ -1,7 +1,6 @@
 package io;
 
 
-import java.awt.Robot;
 import java.io.*;
 import java.util.*;
 import java.util.zip.DataFormatException;
@@ -14,6 +13,7 @@ import src.Case;
 import src.Robot_A_Chenilles;
 import src.Robot_A_Pattes;
 import src.Robot_A_Roues;
+import src.Robot;
 
 
 
@@ -368,13 +368,13 @@ public class LecteurDonnees {
             String type = scanner.next();
             String s = scanner.findInLine("(\\d+)");
             
-            int vitesse ;
+            int vitesse=0;
             
             if(s!=null)
             	vitesse= Integer.parseInt(s);
             
             
-            
+            /*
             switch (type){  //TODO fill constructor
             	case "ROUES":
             		if (s==null)
@@ -402,9 +402,8 @@ public class LecteurDonnees {
             		break;	
             	default:            		
             		throw new DataFormatException("type de Robot"+ type + "inconnu");
-            		break;
             }
-
+			*/
             verifieLigneTerminee();
 
             System.out.println();
