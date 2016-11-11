@@ -5,6 +5,9 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.DataFormatException;
 
+import src.Carte;
+import src.Case;
+
 
 
 /**
@@ -90,10 +93,61 @@ public class LecteurDonnees {
         }
         // une ExceptionFormat levee depuis lireCase est remontee telle quelle
     }
+    /*
+     * lit et sauvegarde la carte
+     */
+    private void lireCarte(Carte map) throws DataFormatException {
+        ignorerCommentaires();
+        try {
+            int nbLignes = scanner.nextInt();
+            int nbColonnes = scanner.nextInt();
+            int tailleCases = scanner.nextInt();	// en m
+            map.setNbLignes(nbLignes);
+            map.setNbColonnes(nbColonnes);
+            map.settailleCases(tailleCases);
+            map.map=new Case[nbLignes][nbColonnes];
+            
+            for (int lig = 0; lig < nbLignes; lig++) {
+                for (int col = 0; col < nbColonnes; col++) {
+                	map.map[lig][col]=new Case(lig,col);
+                    lireCase(lig, col);
+                }
+            }
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("Format invalide. "
+                    + "Attendu: nbLignes nbColonnes tailleCases");
+        }
+        // une ExceptionFormat levee depuis lireCase est remontee telle quelle
+    }
 
 
+    /**
+     * Lit et affiche les donnees d'une case.
+     */
+    private void lireCase(int lig, int col,Carte map, Case ) throws DataFormatException {
+        ignorerCommentaires();
+        System.out.print("Case (" + lig + "," + col + "): ");
+        String chaineNature = new String();
+        //		NatureTerrain nature;
 
+        try {
+            chaineNature = scanner.next();
+            // si NatureTerrain est un Enum, vous pouvez recuperer la valeur
+            // de l'enum a partir d'une String avec:
+            //			NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
 
+            verifieLigneTerminee();
+
+            System.out.print("nature = " + chaineNature);
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("format de case invalide. "
+                    + "Attendu: nature altitude [valeur_specifique]");
+        }
+
+        System.out.println();
+    }
     /**
      * Lit et affiche les donnees d'une case.
      */
@@ -120,7 +174,6 @@ public class LecteurDonnees {
 
         System.out.println();
     }
-
 
     /**
      * Lit et affiche les donnees des incendies.
