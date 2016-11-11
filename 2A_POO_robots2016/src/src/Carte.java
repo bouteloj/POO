@@ -19,6 +19,15 @@ public class Carte {
 	public Case getCase(int x, int y){
 		return map[x][y];
 	}
+	public void setNbLignes(int nb){
+		this.nbLignes=nb;
+	}
+	public void setNbColonnes(int nb){
+		this.nbColonnes=nb;
+	}
+	public void setTailleCases(int taille){
+		this.tailleCases=taille;
+	}
 	
 	public boolean voisinExiste(Case pos, Direction dir){
 		switch (dir) {

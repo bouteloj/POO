@@ -1,10 +1,11 @@
 package simulateur;
 
+import gui.GUISimulator;
+import gui.Simulable;
+
 import java.awt.Color;
 
 import src.DonneesSimulation;
-import gui.GUISimulator;
-import gui.Simulable;
 
 public class Simulateur implements Simulable {
 

@@ -1,12 +1,19 @@
 package io;
 
 
+import java.awt.Robot;
 import java.io.*;
 import java.util.*;
 import java.util.zip.DataFormatException;
 
+import src.Drone;
+import src.Incendie;
+import src.NatureTerrain;
 import src.Carte;
 import src.Case;
+import src.Robot_A_Chenilles;
+import src.Robot_A_Pattes;
+import src.Robot_A_Roues;
 
 
 
@@ -50,7 +57,27 @@ public class LecteurDonnees {
         scanner.close();
         System.out.println("\n == Lecture terminee");
     }
-
+	    /**
+	     * Lit et sauvegarde le contenu d'un fichier de donnees (cases,
+	     * robots et incendies).
+	     * Ceci est méthode de classe; utilisation:
+	     * LecteurDonnees.lire(fichierDonnees, map, incendies, robots)
+	     * @param fichierDonnees nom du fichier à lire
+	     * @param map carte vierge
+	     * @param robots liste vide de robots
+	     * @paramincendies liste vide d'incendies
+	     */
+	    public static void lire(String fichierDonnees, src.Carte map,
+	    		LinkedList<src.Robot> robots, LinkedList<src.Incendie> incendies)
+	    				throws FileNotFoundException, DataFormatException {
+	        System.out.println("\n == Lecture du fichier" + fichierDonnees);
+	        LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
+	        lecteur.lireCarte(map);
+	        lecteur.lireIncendies(incendies, map);
+	        lecteur.lireRobots(robots, map);
+	        scanner.close();
+	        System.out.println("\n == Lecture terminee");
+	    }
 
 
 
@@ -96,7 +123,7 @@ public class LecteurDonnees {
     /*
      * lit et sauvegarde la carte
      */
-    private void lireCarte(Carte map) throws DataFormatException {
+    private void lireCarte(src.Carte map) throws DataFormatException {
         ignorerCommentaires();
         try {
             int nbLignes = scanner.nextInt();
@@ -104,13 +131,13 @@ public class LecteurDonnees {
             int tailleCases = scanner.nextInt();	// en m
             map.setNbLignes(nbLignes);
             map.setNbColonnes(nbColonnes);
-            map.settailleCases(tailleCases);
+            map.setTailleCases(tailleCases);
             map.map=new Case[nbLignes][nbColonnes];
             
             for (int lig = 0; lig < nbLignes; lig++) {
                 for (int col = 0; col < nbColonnes; col++) {
                 	map.map[lig][col]=new Case(lig,col);
-                    lireCase(lig, col);
+                    lireCase(lig, col, map);
                 }
             }
 
@@ -123,11 +150,10 @@ public class LecteurDonnees {
 
 
     /**
-     * Lit et affiche les donnees d'une case.
+     * Lit et sauvegarde les donnees d'une case.
      */
-    private void lireCase(int lig, int col,Carte map, Case ) throws DataFormatException {
+    private void lireCase(int lig, int col,Carte map) throws DataFormatException {
         ignorerCommentaires();
-        System.out.print("Case (" + lig + "," + col + "): ");
         String chaineNature = new String();
         //		NatureTerrain nature;
 
@@ -138,9 +164,8 @@ public class LecteurDonnees {
             //			NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
 
             verifieLigneTerminee();
-
-            System.out.print("nature = " + chaineNature);
-
+            map.map[lig][col].setNature(NatureTerrain.valueOf(chaineNature));
+            
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de case invalide. "
                     + "Attendu: nature altitude [valeur_specifique]");
@@ -176,6 +201,22 @@ public class LecteurDonnees {
     }
 
     /**
+     * Lit et sauvegarde les donnees des incendies.
+     */
+    private void lireIncendies(LinkedList<Incendie> incend, Carte map) throws DataFormatException {
+        ignorerCommentaires();
+        try {
+            int nbIncendies = scanner.nextInt();
+            for (int i = 0; i < nbIncendies; i++) {
+                lireIncendie(i,incend, map);
+            }
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("Format invalide. "
+                    + "Attendu: nbIncendies");
+        }
+    }
+    /**
      * Lit et affiche les donnees des incendies.
      */
     private void lireIncendies() throws DataFormatException {
@@ -192,7 +233,6 @@ public class LecteurDonnees {
                     + "Attendu: nbIncendies");
         }
     }
-
 
     /**
      * Lit et affiche les donnees du i-eme incendie.
@@ -220,12 +260,50 @@ public class LecteurDonnees {
                     + "Attendu: ligne colonne intensite");
         }
     }
+    /**
+     * Lit et sauvegarde les donnees du i-eme incendie.
+     * @param i
+     */
+    private void lireIncendie(int i, LinkedList<Incendie> incend, Carte map) throws DataFormatException {
+        ignorerCommentaires();
+        try {
+            int lig = scanner.nextInt();
+            int col = scanner.nextInt();
+            int intensite = scanner.nextInt();
+            if (intensite <= 0) {
+                throw new DataFormatException("incendie " + i
+                        + "nb litres pour eteindre doit etre > 0");
+            }
+            verifieLigneTerminee();
 
+            incend.add(new Incendie(map.map[lig][col],intensite));
 
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("format d'incendie invalide. "
+                    + "Attendu: ligne colonne intensite");
+        }
+    }
+
+    /**
+     * Lit et sauvegarde les donnees des robots.
+     */
+    private void lireRobots( LinkedList<Robot> rob, Carte map) throws DataFormatException {
+        ignorerCommentaires();
+        try {
+            int nbRobots = scanner.nextInt();
+            for (int i = 0; i < nbRobots; i++) {
+                lireRobot(i,rob,map);
+            }
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("Format invalide. "
+                    + "Attendu: nbRobots");
+        }
+    }
     /**
      * Lit et affiche les donnees des robots.
      */
-    private void lireRobots() throws DataFormatException {
+    private void lireRobots( ) throws DataFormatException {
         ignorerCommentaires();
         try {
             int nbRobots = scanner.nextInt();
@@ -239,7 +317,6 @@ public class LecteurDonnees {
                     + "Attendu: nbRobots");
         }
     }
-
 
     /**
      * Lit et affiche les donnees du i-eme robot.
@@ -278,7 +355,65 @@ public class LecteurDonnees {
                     + "Attendu: ligne colonne type [valeur_specifique]");
         }
     }
+    /**
+     * Lit et sauvegarde les donnees du i-eme robot.
+     * @param i
+     */
+    private void lireRobot(int i,LinkedList<Robot> rob, Carte map) throws DataFormatException {
+        ignorerCommentaires();
 
+        try {
+            int lig = scanner.nextInt();
+            int col = scanner.nextInt();
+            String type = scanner.next();
+            String s = scanner.findInLine("(\\d+)");
+            
+            int vitesse ;
+            
+            if(s!=null)
+            	vitesse= Integer.parseInt(s);
+            
+            
+            
+            switch (type){  //TODO fill constructor
+            	case "ROUES":
+            		if (s==null)
+            			vitesse=80;
+            		rob.add(new Robot_A_Roues(map.map[1][1]));
+            		break;
+            	case "CHENILLES":
+            		if (s==null)
+            			vitesse=60;
+            		if (vitesse>80)
+            			throw new DataFormatException("vitesse du robot a roues trop elevee:"+ vitesse);
+            		rob.add(new Robot_A_Chenilles());
+            		break;
+            	case "PATTES":
+            		if (s==null)
+            			vitesse=30;
+            		rob.add(new Robot_A_Pattes());
+            		break;
+            	case "DRONE":
+            		if (s==null)
+            			vitesse=100;
+            		if (vitesse>150)
+            			throw new DataFormatException("vitesse du drone trop elevee:"+ vitesse);
+            		rob.add(new Drone());
+            		break;	
+            	default:            		
+            		throw new DataFormatException("type de Robot"+ type + "inconnu");
+            		break;
+            }
+
+            verifieLigneTerminee();
+
+            System.out.println();
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("format de robot invalide. "
+                    + "Attendu: ligne colonne type [valeur_specifique]");
+        }
+    }
 
 
 
