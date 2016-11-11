@@ -1,4 +1,5 @@
 package simulateur;
+<<<<<<< HEAD
 import java.lang.String;
 import java.awt.image.ImageObserver;
 import java.awt.Color;
@@ -12,6 +13,14 @@ import gui.Rectangle;
 import gui.Simulable;
 import gui.Text;
 import src.Case;
+=======
+
+import gui.GUISimulator;
+import gui.Simulable;
+
+import java.awt.Color;
+
+>>>>>>> d91f59a50a5580851e350ab31f6ed0047d2b1ba1
 import src.DonneesSimulation;
 
 public class Simulateur implements Simulable {
