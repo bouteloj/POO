@@ -6,7 +6,7 @@ public class TestSimulateurStatique {
 	
 	public static void main (String[] fichier){
 		Simulateur simulate = new Simulateur (fichier[0]);
-		//Simulateur.Afficher;
+		simulate.Afficher(800);
 		//public static void Afficher {
 		//}
 		}
