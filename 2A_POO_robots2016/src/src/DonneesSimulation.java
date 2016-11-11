@@ -6,4 +6,9 @@ public class DonneesSimulation {
 	private Carte map;
 	private LinkedList<Robot> robots;
 	private LinkedList<Incendie> incendies;
+	
+	public DonneesSimulation(String Path){
+		
+		
+	}
 }

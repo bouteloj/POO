@@ -6,10 +6,13 @@ public class Case {
 	private int colonne;
 	private NatureTerrain nature;
 	
-	public Case(int l, int c, NatureTerrain n){
+	public Case(int l, int c){
 		this.colonne=c;
 		this.ligne=l;
-		this.nature=n;
+	}
+	
+	public void setNature(NatureTerrain nat){
+		this.nature=nat;
 	}
 	
 	public int getLigne(){

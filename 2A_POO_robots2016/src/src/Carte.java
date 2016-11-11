@@ -4,7 +4,7 @@ package src;
 public class Carte {
 	private int nbLignes;
 	private int nbColonnes;
-	private Case map[][] ;
+	public Case map[][] ;
 	private int tailleCases;
 	
 	public int getNbLignes(){
@@ -47,7 +47,7 @@ public class Carte {
 		case SUD:
 			return map[pos.getLigne()-1][pos.getColonne()];
 		default:
-			return new Case(0, 0, null);		//unreachable
+			return new Case(0, 0);		//unreachable
 		}
 	}
 }
