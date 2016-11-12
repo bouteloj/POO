@@ -28,10 +28,10 @@ public class Simulateur implements Simulable {
 	public GUISimulator gui;
 	private long time;
 	private PriorityQueue<Evenement> events;
-	
+	int x;
 	
 	public Simulateur(String pathMap){
-		int x = 800;
+		x = 800;
 		data=new DonneesSimulation(pathMap);
 		gui = new GUISimulator(x,x,Color.black,this);
 		time=0;
@@ -49,6 +49,7 @@ public class Simulateur implements Simulable {
 		while(this.events.peek().getDate()<this.time){
 			this.events.poll().execute();
 		}
+		Afficher(x);
 	}
 
 	@Override

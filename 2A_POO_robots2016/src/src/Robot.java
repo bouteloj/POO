@@ -32,6 +32,10 @@ public abstract class Robot {
     	return this.enDeplacement;
     }
     
+    public LinkedList<Direction> getDestination(){
+    	return this.destination;
+    }
+    
 	public Case getPosition(){
 		return this.position;
 	}
@@ -49,20 +53,22 @@ public abstract class Robot {
 		return 2/(getVitesse(depart.getNature()) + getVitesse(destination.getNature()))*(tailleCases);
 	}
 	
-	public void deverserEau( Incendie incend){
-		
-		if (incend.getVerser() <= this.getCapaciteMax()) {
+	public boolean deverserEau( Incendie incend){
+		this.capacite -= quantiteIntervention();
+		incend.verser(quantiteIntervention());
+		/*if (incend.getVerser() <= this.getCapaciteMax()) {
 			if (this.getCapacite() >= incend.getVerser()) {
 				this.capacite -= incend.getVerser();
 
 			} else {
 				incend.verser(incend.getVerser()-this.capacite);
 				this.setCapacite(0);
-				System.out.println("reservoir mis à 0");
+				System.out.println("reservoir mis a 0");
 			}
 		} else {
-			System.out.println("Le " + this.getType() + " ne peut se contenir ccette quantité ");
-		}
+			System.out.println("Le " + this.getType() + " ne peut se contenir cette quantite ");
+		}*/
+		return !this.capacite==0
 	}
 	 public String getType(){
 	        return this.getClass().getName().substring(14);
