@@ -3,9 +3,6 @@ package src;
 import java.util.LinkedList;
 
 
-
-
-
 public abstract class Robot {
 	protected Case position;
     protected int capacite;
@@ -59,7 +56,6 @@ public abstract class Robot {
 		/*if (incend.getVerser() <= this.getCapaciteMax()) {
 			if (this.getCapacite() >= incend.getVerser()) {
 				this.capacite -= incend.getVerser();
-
 			} else {
 				incend.verser(incend.getVerser()-this.capacite);
 				this.setCapacite(0);
@@ -73,7 +69,6 @@ public abstract class Robot {
 	 public String getType(){
 	        return this.getClass().getName().substring(14);
 	 }
-	
 	
 	public abstract double getVitesse(NatureTerrain nature);
 	
