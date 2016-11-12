@@ -1,13 +1,7 @@
 package simulateur;
 
 
-import java.lang.String;
-import java.awt.image.ImageObserver;
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.LinkedList;
 import java.util.ListIterator;
 
 import javax.swing.JFrame;
@@ -16,8 +10,6 @@ import gui.GUISimulator;
 import gui.ImageElement;
 import gui.Rectangle;
 import gui.Simulable;
-import gui.Text;
-import src.Case;
 import src.DonneesSimulation;
 import src.Incendie;
 import src.Robot;

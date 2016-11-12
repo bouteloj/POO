@@ -1,18 +1,18 @@
 package io;
 
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.Locale;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 import java.util.zip.DataFormatException;
 
-import src.Drone;
-import src.Incendie;
-import src.NatureTerrain;
 import src.Carte;
 import src.Case;
-import src.Robot_A_Chenilles;
-import src.Robot_A_Pattes;
-import src.Robot_A_Roues;
+import src.Incendie;
+import src.NatureTerrain;
 import src.Robot;
 
 
