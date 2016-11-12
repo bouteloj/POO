@@ -20,6 +20,7 @@ import gui.Text;
 import src.Case;
 import src.DonneesSimulation;
 import src.Incendie;
+import src.Robot;
 
 
 
@@ -57,6 +58,7 @@ public class Simulateur implements Simulable {
 		java.lang.String fileName= "img/feu.png";
 		
 		Incendie Temp;
+		Robot Temp2;
 		for(int i=0; i<data.map.getNbLignes();i++){
 			for(int j=0; j<data.map.getNbColonnes();j++){
 				switch(String.valueOf(data.map.map[i][j].getNature())){ 
@@ -85,5 +87,15 @@ public class Simulateur implements Simulable {
 			gui.addGraphicalElement(new ImageElement(Temp.position.getLigne()*tailleCaseAffichage,Temp.position.getColonne()*tailleCaseAffichage,fileName,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 			Temp = IncendieIterator.next();
 		}
+		gui.addGraphicalElement(new ImageElement(Temp.position.getLigne()*tailleCaseAffichage,Temp.position.getColonne()*tailleCaseAffichage,fileName,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+
+		Temp2 = data.robots.getFirst();
+		ListIterator<Robot> robotIterator=data.robots.listIterator(0);
+		while (robotIterator.hasNext()){
+			gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getPosition().getColonne()*tailleCaseAffichage,fileName,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+			Temp2 = robotIterator.next();
+		}
+		gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getPosition().getColonne()*tailleCaseAffichage,fileName,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+
 	}
 }
