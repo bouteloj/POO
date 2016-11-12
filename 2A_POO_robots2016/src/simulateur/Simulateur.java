@@ -3,8 +3,12 @@ package simulateur;
 
 import java.awt.Color;
 import java.util.ListIterator;
+import java.util.PriorityQueue;
 
 import javax.swing.JFrame;
+
+import events.Evenement;
+import events.PrioEvent;
 
 import gui.GUISimulator;
 import gui.ImageElement;
@@ -22,19 +26,29 @@ public class Simulateur implements Simulable {
 
 	public DonneesSimulation data;
 	public GUISimulator gui;
+	private long time;
+	private PriorityQueue<Evenement> events;
 	
 	
 	public Simulateur(String pathMap){
 		int x = 800;
 		data=new DonneesSimulation(pathMap);
 		gui = new GUISimulator(x,x,Color.black,this);
+		time=0;
+		events=new PriorityQueue<Evenement>(10,new PrioEvent());
 		Afficher(x);
+	}
+	
+	public long getTime(){
+		return this.time;
 	}
 	
 	@Override
 	public void next() {
-		// TODO Auto-generated method stub
-
+		this.time++;
+		while(this.events.peek().getDate()<this.time){
+			this.events.poll().execute();
+		}
 	}
 
 	@Override
@@ -89,5 +103,9 @@ public class Simulateur implements Simulable {
 		}
 		gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getPosition().getColonne()*tailleCaseAffichage,Temp2.getpicname(),tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 
+	}
+	
+	public void ajouteEvenement(Evenement event){
+		this.events.add(event);
 	}
 }

@@ -1,5 +1,7 @@
 package src;
 
+import java.util.LinkedList;
+
 
 
 
@@ -10,6 +12,7 @@ public abstract class Robot {
     protected int vitesse;
     protected boolean enDeplacement;
     java.lang.String fileName;
+    LinkedList<Direction> destination;
     
     public java.lang.String getpicname(){
     	return this.fileName;
@@ -18,7 +21,8 @@ public abstract class Robot {
     public Robot(Case pos, int vitesse){
     	this.position=pos;
     	this.vitesse=vitesse;
-    	this.enDeplacement=false;    	
+    	this.enDeplacement=false; 
+    	this.destination=new LinkedList<Direction>();
     }
     
     public void setDeplacement(boolean b){
