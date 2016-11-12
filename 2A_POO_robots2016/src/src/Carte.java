@@ -19,6 +19,7 @@ public class Carte {
 	public Case getCase(int x, int y){
 		return map[x][y];
 	}
+
 	public boolean unVoisinEau(Case c) {
 		if((this.voisinExiste(c, Direction.NORD) && this.getVoisin(c, Direction.NORD).getNature() == NatureTerrain.EAU)
 			|| (this.voisinExiste(c, Direction.SUD) && this.getVoisin(c, Direction.SUD).getNature() == NatureTerrain.EAU)
@@ -29,6 +30,18 @@ public class Carte {
 			return false;
 		}
 	}
+
+	public void setNbLignes(int nb){
+		this.nbLignes=nb;
+	}
+	public void setNbColonnes(int nb){
+		this.nbColonnes=nb;
+	}
+	public void setTailleCases(int taille){
+		this.tailleCases=taille;
+	}
+	
+
 	public boolean voisinExiste(Case pos, Direction dir){
 		switch (dir) {
 		case EST:

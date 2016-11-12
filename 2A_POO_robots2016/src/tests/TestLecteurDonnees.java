@@ -1,9 +1,9 @@
 package tests;
 
-import io.LecteurDonnees;
-
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
+
+import io.LecteurDonnees;
 
 public class TestLecteurDonnees {
 

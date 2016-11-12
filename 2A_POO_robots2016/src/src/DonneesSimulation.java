@@ -1,14 +1,31 @@
 package src;
 
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.zip.DataFormatException;
+
+import io.LecteurDonnees;
 
 public class DonneesSimulation {
-	private Carte map;
-	private LinkedList<Robot> robots;
-	private LinkedList<Incendie> incendies;
+	public Carte map;
+
+	public LinkedList<Robot> robots;
+	public LinkedList<Incendie> incendies;
 	
 	public DonneesSimulation(String Path){
+		map=new Carte();
+		robots = new LinkedList<Robot>();
+		incendies = new LinkedList<Incendie>();
 		
+		try {
+			LecteurDonnees.lire(Path, map, robots, incendies);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 }

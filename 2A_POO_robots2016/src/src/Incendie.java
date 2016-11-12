@@ -2,7 +2,7 @@ package src;
 
 
 public class Incendie {
-	private Case position;
+	public Case position;
 	private int litresAVerser;
 	
 	public Incendie(Case pos,int lit){

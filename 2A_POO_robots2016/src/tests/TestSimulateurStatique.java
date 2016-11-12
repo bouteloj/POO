@@ -1,12 +1,13 @@
 package tests;
 
+import simulateur.Simulateur;
+
 public class TestSimulateurStatique {
 	
 	public static void main (String[] fichier){
-		Simulateur = new Simulateur (fichier);
-		Simulateur.Afficher;
-		public static void Afficher {
-			
+		Simulateur simulate = new Simulateur (fichier[0]);
+		simulate.Afficher(800);
+		//public static void Afficher {
+		//}
 		}
 	}
-}
