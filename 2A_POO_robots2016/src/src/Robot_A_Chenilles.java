@@ -3,21 +3,10 @@ package src;
 public class Robot_A_Chenilles extends Robot {
 	int i = 0;	
 
-    public Robot_A_Chenilles(){
-		
+    public Robot_A_Chenilles(Case pos, int vitesse){
+		super(pos,vitesse);
+		this.fileName="img/chenille.jpeg";
 		this.setCapacite(2000);
-		this.vitesse = 60;
-	}
-
-	public Robot_A_Chenilles(int vitesse) {
-
-		if(vitesse > 0) {
-			if (vitesse >= 80) {
-				this.vitesse = 80;
-			} else {
-				this.vitesse = vitesse;
-			}
-		}
 	}
 
 

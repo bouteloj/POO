@@ -3,16 +3,12 @@ package src;
 public class Robot_A_Roues extends Robot{
 	int i = 0;	
 
-    public Robot_A_Roues(){
-		
+    public Robot_A_Roues(Case pos, int vitesse){
+		super(pos,vitesse);
+		this.fileName="img/roue.jpg";
 		this.capacite = 5000;
-		this.vitesse = 80;
 	}
 
-	public Robot_A_Roues(int vitesse) {
-		
-		this.vitesse = vitesse;
-	}
 
 
 	@Override

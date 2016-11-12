@@ -47,7 +47,7 @@ public class Simulateur implements Simulable {
 		gui.reset();
 		
 		int tailleCaseAffichage = x/data.map.getNbLignes();
-		java.lang.String fileName= "img/feu.png";
+		java.lang.String fileNameincend= "img/feu.png";
 		
 		Incendie Temp;
 		Robot Temp2;
@@ -76,18 +76,18 @@ public class Simulateur implements Simulable {
 		Temp = data.incendies.getFirst();
 		ListIterator<Incendie> IncendieIterator=data.incendies.listIterator(0);
 		while (IncendieIterator.hasNext()){
-			gui.addGraphicalElement(new ImageElement(Temp.position.getLigne()*tailleCaseAffichage,Temp.position.getColonne()*tailleCaseAffichage,fileName,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+			gui.addGraphicalElement(new ImageElement(Temp.position.getLigne()*tailleCaseAffichage,Temp.position.getColonne()*tailleCaseAffichage,fileNameincend,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 			Temp = IncendieIterator.next();
 		}
-		gui.addGraphicalElement(new ImageElement(Temp.position.getLigne()*tailleCaseAffichage,Temp.position.getColonne()*tailleCaseAffichage,fileName,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+		gui.addGraphicalElement(new ImageElement(Temp.position.getLigne()*tailleCaseAffichage,Temp.position.getColonne()*tailleCaseAffichage,fileNameincend,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 
 		Temp2 = data.robots.getFirst();
 		ListIterator<Robot> robotIterator=data.robots.listIterator(0);
 		while (robotIterator.hasNext()){
-			gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getPosition().getColonne()*tailleCaseAffichage,fileName,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+			gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getPosition().getColonne()*tailleCaseAffichage,Temp2.getpicname(),tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 			Temp2 = robotIterator.next();
 		}
-		gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getPosition().getColonne()*tailleCaseAffichage,fileName,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+		gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getPosition().getColonne()*tailleCaseAffichage,Temp2.getpicname(),tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 
 	}
 }

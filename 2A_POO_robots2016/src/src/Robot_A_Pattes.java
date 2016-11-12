@@ -1,10 +1,10 @@
 package src;
 
 public class Robot_A_Pattes extends Robot {
-	public Robot_A_Pattes(){
-		
+	public Robot_A_Pattes(Case pos, int vitesse){
+		super(pos,vitesse);
+		this.fileName="img/pattes.png";
 		this.capacite = Integer.MAX_VALUE;
-		this.vitesse = 30;
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class Robot_A_Pattes extends Robot {
 
 	
 	@Override
-	public void deverserEau(int vol){
+	public void deverserEau(Incendie incend){
 		this.capacite = Integer.MAX_VALUE;
 		
 	}

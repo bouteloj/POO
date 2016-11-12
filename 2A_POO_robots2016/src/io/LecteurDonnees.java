@@ -11,9 +11,13 @@ import java.util.zip.DataFormatException;
 
 import src.Carte;
 import src.Case;
+import src.Drone;
 import src.Incendie;
 import src.NatureTerrain;
 import src.Robot;
+import src.Robot_A_Chenilles;
+import src.Robot_A_Pattes;
+import src.Robot_A_Roues;
 
 
 
@@ -374,36 +378,36 @@ public class LecteurDonnees {
             	vitesse= Integer.parseInt(s);
             
             
-            /*
+            
             switch (type){  //TODO fill constructor
             	case "ROUES":
             		if (s==null)
             			vitesse=80;
-            		rob.add(new Robot_A_Roues(map.map[1][1]));
+            		rob.add(new Robot_A_Roues(map.map[lig][col],vitesse));
             		break;
             	case "CHENILLES":
             		if (s==null)
             			vitesse=60;
             		if (vitesse>80)
             			throw new DataFormatException("vitesse du robot a roues trop elevee:"+ vitesse);
-            		rob.add(new Robot_A_Chenilles());
+            		rob.add(new Robot_A_Chenilles(map.map[lig][col],vitesse));
             		break;
             	case "PATTES":
             		if (s==null)
             			vitesse=30;
-            		rob.add(new Robot_A_Pattes());
+            		rob.add(new Robot_A_Pattes(map.map[lig][col],vitesse));
             		break;
             	case "DRONE":
             		if (s==null)
             			vitesse=100;
             		if (vitesse>150)
             			throw new DataFormatException("vitesse du drone trop elevee:"+ vitesse);
-            		rob.add(new Drone());
+            		rob.add(new Drone(map.map[lig][col],vitesse));
             		break;	
             	default:            		
             		throw new DataFormatException("type de Robot"+ type + "inconnu");
             }
-			*/
+			
             verifieLigneTerminee();
 
             System.out.println();

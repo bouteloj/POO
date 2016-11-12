@@ -4,22 +4,12 @@ public class Drone extends Robot {
 	
 		int n = 0;	
 
-		public Drone(){
-			
+		public Drone(Case pos, int vitesse){
+			super(pos,vitesse);
 			this.setCapacite(10000);
-			this.vitesse=100;
+			this.fileName="img/drone.png";
 		}
 
-		public Drone(int vitesse) {
-			
-			if(vitesse > 0) {
-				if (vitesse >= 150) {
-					this.vitesse=150;
-				} else {
-					this.vitesse = vitesse;
-				}
-			}
-		}
 
 		@Override
 		public double getVitesse(NatureTerrain natureDuTerrain){
@@ -36,7 +26,6 @@ public class Drone extends Robot {
 		public void remplirReservoir(Carte carte){
 			if (position.getNature().equals(NatureTerrain.EAU)) {
 				if (n == 8) {
-					ccc
 					n = 0;
 				} else {
 					super.setCapacite(getCapacite()+6);
@@ -66,6 +55,6 @@ public class Drone extends Robot {
 		public int quantiteIntervention(){
 			return 10000;
 		}
-	}
-
 }
+
+
