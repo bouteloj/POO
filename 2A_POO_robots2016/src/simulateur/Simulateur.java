@@ -2,9 +2,9 @@ package simulateur;
 
 import java.awt.Color;
 
-import src.DonneesSimulation;
 import gui.GUISimulator;
 import gui.Simulable;
+import src.DonneesSimulation;
 
 public class Simulateur implements Simulable {
 
