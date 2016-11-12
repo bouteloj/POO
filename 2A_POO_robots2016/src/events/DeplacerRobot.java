@@ -1,12 +1,14 @@
 package events;
 
+import simulateur.Simulateur;
 import src.Case;
+import src.DonneesSimulation;
 import src.Robot;
 
 public class DeplacerRobot extends Evenement{
 	private Robot rob;
 	private Case dest;
-	
+	private Simulateur sim;
 	
 	public DeplacerRobot(long date) {
 		super(date);
@@ -16,7 +18,11 @@ public class DeplacerRobot extends Evenement{
 	@Override
 	public boolean execute(){
 		rob.setPosition(dest);
-		if (rob.getDestination(). ==0)
+		if (rob.getDestination().size() ==0){
+			
+		}else{
+			sim.ajouteEvenement(new DeplacerRobot(newdate,rob,rob.sim.map.get(getDestination().poll()))
+		}
 		return true;
 		
 		
