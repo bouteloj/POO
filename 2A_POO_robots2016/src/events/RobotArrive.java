@@ -1,9 +1,16 @@
-package envents 
+package events; 
 
-public class RobotArrive {
+public class RobotArrive extends Evenement{
+	
+	
+	public RobotArrive(long date) {
+		super(date);
+	}
+
 	@Override
 	public boolean execute(){
-		System.out.Println("Le robot est arrivé");
-		System.out.Println("Il va pouvoir commencer sa tâche");
+		System.out.println("Le robot est arrive");
+		System.out.println("Il va pouvoir commencer sa tache");
+		return true;
 	}
 }
