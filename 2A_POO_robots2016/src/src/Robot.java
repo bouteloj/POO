@@ -68,7 +68,7 @@ public abstract class Robot {
 		} else {
 			System.out.println("Le " + this.getType() + " ne peut se contenir cette quantite ");
 		}*/
-		return !this.capacite==0
+		return !(this.capacite==0);
 	}
 	 public String getType(){
 	        return this.getClass().getName().substring(14);

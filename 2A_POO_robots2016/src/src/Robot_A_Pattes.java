@@ -20,8 +20,9 @@ public class Robot_A_Pattes extends Robot {
 
 	
 	@Override
-	public void deverserEau(Incendie incend){
+	public boolean deverserEau(Incendie incend){
 		this.capacite = Integer.MAX_VALUE;
+		return true;
 		
 	}
 

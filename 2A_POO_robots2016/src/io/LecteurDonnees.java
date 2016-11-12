@@ -201,7 +201,6 @@ public class LecteurDonnees {
                     + "Attendu: nature altitude [valeur_specifique]");
         }
 
-        System.out.println();
     }
 
     /**
@@ -379,7 +378,7 @@ public class LecteurDonnees {
             
             
             
-            switch (type){  //TODO fill constructor
+            switch (type){  
             	case "ROUES":
             		if (s==null)
             			vitesse=80;
@@ -410,7 +409,6 @@ public class LecteurDonnees {
 			
             verifieLigneTerminee();
 
-            System.out.println();
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de robot invalide. "

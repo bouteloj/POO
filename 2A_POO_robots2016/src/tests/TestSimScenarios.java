@@ -16,13 +16,15 @@ public class TestSimScenarios {
 	public static void main(String[] args) {
 		Simulateur simulate = new Simulateur ("cartes/carteSujet.map");
 		initdepl(simulate,0);
-		simulate.Afficher(800);
+		simulate.Afficher();
 	}
 	
 	private static void initdepl(Simulateur s, int numscenario){
 		if(numscenario==0){
-			for (int i=0; i<4; i++)
+			for (int i=0; i<3; i++){
 				s.data.robots.getFirst().getDestination().addLast(Direction.NORD);
+				//s.data.robots.getFirst().getDestination().addLast(Direction.SUD);
+			}
 		}else{
 			
 		}
@@ -30,10 +32,22 @@ public class TestSimScenarios {
 		Robot Temp = s.data.robots.getFirst();
 		ListIterator<Robot> robotIterator=s.data.robots.listIterator(0);
 		while (robotIterator.hasNext()){
-			if (Temp.getDestination().size()!=0)
-				s.ajouteEvenement(new DeplacerRobot(date,Temp,s.data.map.getVoisin(Temp.getPosition(), Temp.getDestination().getFirst()),s));
 			Temp = robotIterator.next();
+			System.out.println(Temp.getDestination().size());
+
+			if (Temp.getDestination().size()!=0){
+				date=(long) (s.getTime()+(s.data.map.getTailleCases()/
+						Temp.getVitesse(s.data.map.getVoisin(Temp.getPosition(), 
+								Temp.getDestination().peek()).getNature())));
+
+				s.ajouteEvenement(new DeplacerRobot(date,Temp,s.data.map.getVoisin(
+						Temp.getPosition(), Temp.getDestination().poll()),s));
+			}
+			//Temp = robotIterator.next();
+
+			
 		}
+		
 
 	}
 

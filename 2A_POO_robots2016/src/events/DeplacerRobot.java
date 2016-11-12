@@ -19,11 +19,14 @@ public class DeplacerRobot extends Evenement{
 	@Override
 	public boolean execute(){
 		rob.setPosition(dest);
-		if (rob.getDestination().size() ==0){
+		System.out.println("size="+rob.getDestination().size());
+		if (rob.getDestination().size() == 0){
 			sim.ajouteEvenement(new RobotArrive(date));
 		}else{
-			long newdate=(long) (sim.data.map.getTailleCases()/
-					rob.getVitesse(sim.data.map.getVoisin(dest, rob.getDestination().poll()).getNature()));
+			System.out.println("youhou je bouge "+rob.getDestination().peek());
+			
+			long newdate=(long) (sim.getTime()+(sim.data.map.getTailleCases()/
+					rob.getVitesse(sim.data.map.getVoisin(dest, rob.getDestination().peek()).getNature())));
 			sim.ajouteEvenement(new DeplacerRobot(
 					newdate,rob,sim.data.map.getVoisin(dest, rob.getDestination().poll()),sim));
 		}

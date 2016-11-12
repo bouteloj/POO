@@ -63,11 +63,11 @@ public class Carte {
 		case EST:
 			return map[pos.getLigne()][pos.getColonne()+1];
 		case NORD:
-			return map[pos.getLigne()+1][pos.getColonne()];
+			return map[pos.getLigne()-1][pos.getColonne()];
 		case OUEST:
 			return map[pos.getLigne()][pos.getColonne()-1];
 		case SUD:
-			return map[pos.getLigne()-1][pos.getColonne()];
+			return map[pos.getLigne()+1][pos.getColonne()];
 		default:
 			return new Case(0, 0);		//unreachable
 		}
