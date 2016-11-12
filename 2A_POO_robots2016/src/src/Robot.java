@@ -32,6 +32,10 @@ public abstract class Robot {
     	return this.enDeplacement;
     }
     
+    public LinkedList<Direction> getDestination(){
+    	return this.destination;
+    }
+    
 	public Case getPosition(){
 		return this.position;
 	}
