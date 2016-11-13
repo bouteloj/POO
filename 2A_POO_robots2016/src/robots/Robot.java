@@ -15,7 +15,7 @@ public abstract class Robot {
     protected int vitesse;
     protected boolean enDeplacement=false;
     java.lang.String fileName;
-    LinkedList<Direction> destination;
+    public LinkedList<Direction> destination;
     
     public java.lang.String getpicname(){
     	return this.fileName;
@@ -57,6 +57,9 @@ public abstract class Robot {
 	}
 	public double getTempsDeplacement(Case depart, Case destination, int tailleCases){
 		
+		if (getVitesse(destination.getNature())==0){
+			return Double.MAX_VALUE;
+		}
 		return 2/(getVitesse(depart.getNature()) + getVitesse(destination.getNature()))*(tailleCases);
 	}
 	

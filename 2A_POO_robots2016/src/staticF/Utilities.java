@@ -1,6 +1,7 @@
 package staticF;
 
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 import robots.Robot;
 import simulateur.Simulateur;
@@ -17,15 +18,99 @@ public class Utilities {
 		CasePourDijkstra[][] graph= new CasePourDijkstra[simul.data.map.getNbLignes()][simul.data.map.getNbColonnes()];
 		for (int i=0; i<simul.data.map.getNbLignes(); i++){
 			for (int j=0; j<simul.data.map.getNbColonnes(); j++){
-				graph[i][j]=new CasePourDijkstra();
+				graph[i][j]=new CasePourDijkstra(i,j);
 			}
 		}
-		//init listes
-		LinkedList<CasePourDijkstra> aTtraiter=new LinkedList<CasePourDijkstra>();
-		LinkedList<CasePourDijkstra> traitees=new LinkedList<CasePourDijkstra>();
+		boolean trouve=false;
+		//init file de prio
+		PriorityQueue<CasePourDijkstra> aTraiter=new PriorityQueue<CasePourDijkstra>(1,new priodjkstra());
 		//init case depart + sauvegarde case arrivee
 		graph[rob.getPosition().getLigne()][rob.getPosition().getColonne()].longueurTrajet=0;
+		aTraiter.add(graph[rob.getPosition().getLigne()][rob.getPosition().getColonne()]);
 		CasePourDijkstra arrivee=graph[dest.getLigne()][dest.getColonne()];
+		
+		
+		CasePourDijkstra courant=null;
+		while(aTraiter.size()!=0 && !trouve){
+			courant=aTraiter.poll();
+			if(courant.equals(arrivee)){
+				trouve=true;
+			}
+			if (courant.l>0){
+				if (!graph[courant.l-1][courant.c].traité){
+					graph[courant.l-1][courant.c].longueurTrajet=(int) (courant.longueurTrajet+
+							rob.getTempsDeplacement(simul.data.map.getCase(courant.l, courant.c),
+									simul.data.map.getCase(courant.l-1, courant.c),
+									simul.data.map.getTailleCases()));
+					graph[courant.l-1][courant.c].incidente=courant;
+					aTraiter.add(graph[courant.l-1][courant.c]);
+				}
+			}
+			
+			if (courant.l<simul.data.map.getNbLignes()-1){
+				if (!graph[courant.l+1][courant.c].traité){
+					graph[courant.l+1][courant.c].longueurTrajet=(int) (courant.longueurTrajet+
+							rob.getTempsDeplacement(simul.data.map.getCase(courant.l, courant.c),
+									simul.data.map.getCase(courant.l+1, courant.c),
+									simul.data.map.getTailleCases()));
+					graph[courant.l+1][courant.c].incidente=courant;
+					aTraiter.add(graph[courant.l+1][courant.c]);
+				}
+			}
+			
+			if (courant.c>0){
+				if (!graph[courant.l][courant.c-1].traité){
+					graph[courant.l][courant.c-1].longueurTrajet=(int) (courant.longueurTrajet+
+							rob.getTempsDeplacement(simul.data.map.getCase(courant.l, courant.c),
+									simul.data.map.getCase(courant.l, courant.c-1),
+									simul.data.map.getTailleCases()));
+					graph[courant.l][courant.c-1].incidente=courant;
+					aTraiter.add(graph[courant.l][courant.c-1]);
+				}
+			}
+			if (courant.c<simul.data.map.getNbColonnes()-1){
+				if (!graph[courant.l][courant.c+1].traité){
+					graph[courant.l][courant.c+1].longueurTrajet=(int) (courant.longueurTrajet+
+							rob.getTempsDeplacement(simul.data.map.getCase(courant.l, courant.c),
+									simul.data.map.getCase(courant.l, courant.c+1),
+									simul.data.map.getTailleCases()));
+					graph[courant.l][courant.c+1].incidente=courant;
+					aTraiter.add(graph[courant.l][courant.c+1]);
+				}
+			}
+			courant.traité=true;
+		}
+		
+		if (courant!=arrivee){
+			return null;
+		}
+		
+		LinkedList<Direction> resultat=new LinkedList<Direction>();
+		while (courant.incidente!=null){
+			resultat.addFirst(case2Dir(courant.incidente,courant));
+			courant=courant.incidente;
+		}
+		return resultat;
+		
+	}
+
+	//direction pour aller de c1 a c2
+	private static Direction case2Dir(CasePourDijkstra c1,CasePourDijkstra c2){
+		if (c1.l-c2.l==1){
+			return Direction.NORD;
+		}
+		if (c1.l-c2.l==-1){
+			return Direction.SUD;
+		}
+		if (c1.c-c2.c==1){
+			return Direction.OUEST;
+		}
+		if (c1.c-c2.c==-1){
+			return Direction.EST;
+		}
+		
+		return null;//only accessible in error case
+
 	}
 	
 	
@@ -43,7 +128,7 @@ public class Utilities {
 	
 	
 	
-	
+	/*
 	
 	
 	
@@ -129,5 +214,5 @@ public class Utilities {
 		}
 			
 	}
-	
+	*/
 }
