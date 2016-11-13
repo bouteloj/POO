@@ -15,7 +15,7 @@ public abstract class Robot {
     protected int vitesse;
     protected boolean enDeplacement;
     java.lang.String fileName;
-    LinkedList<Direction> destination;
+    public LinkedList<Direction> destination;
     
     public java.lang.String getpicname(){
     	return this.fileName;
