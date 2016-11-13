@@ -73,4 +73,30 @@ public class Carte {
 			return new Case(0, 0);		//unreachable
 		}
 	}
+	
+	public boolean estVoisin(Case c1, Case c2){
+		return (((c1.getLigne()-c2.getLigne()==1 || c1.getLigne()-c2.getLigne()==-1) && c1.getColonne()==c2.getColonne())
+				|| ((c1.getColonne()-c2.getColonne()==1 || c1.getColonne()-c2.getColonne()==-1) && c1.getLigne()==c2.getLigne()));
+	}
+	
+	
+	/*
+	 * renvoie la direction a prendre pour aller de c1 a c2
+	 * requiert c1 voisin de c2
+	 */
+	public Direction directionVoisin(Case c1, Case c2){
+		if(c1.getLigne()-c2.getLigne()==1){
+			return Direction.NORD;
+		}
+		if(c1.getLigne()-c2.getLigne()==-1){
+			return Direction.SUD;
+		}
+		if(c1.getColonne()-c2.getColonne()==-1){
+			return Direction.EST;
+		}
+		if(c1.getColonne()-c2.getColonne()==1){
+			return Direction.OUEST;
+		}
+		return null;//reacheable only in error case
+	}
 }
