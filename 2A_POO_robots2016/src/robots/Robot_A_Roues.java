@@ -9,7 +9,7 @@ public class Robot_A_Roues extends Robot{
 
     public Robot_A_Roues(Case pos, int vitesse){
 		super(pos,vitesse);
-		this.fileName="img/roue.jpeg";
+		this.fileName="img/roues.png";
 		this.capacite = 5000;
 	}
 

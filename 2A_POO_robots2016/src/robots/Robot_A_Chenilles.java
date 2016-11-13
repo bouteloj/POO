@@ -9,7 +9,7 @@ public class Robot_A_Chenilles extends Robot {
 
     public Robot_A_Chenilles(Case pos, int vitesse){
 		super(pos,vitesse);
-		this.fileName="img/chenille.jpeg";
+		this.fileName="img/chenille.png";
 		this.setCapacite(2000);
 	}
 

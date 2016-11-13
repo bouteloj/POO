@@ -3,7 +3,6 @@ package events;
 import robots.Robot;
 import simulateur.Simulateur;
 import src.Carte;
-import src.Direction;
 
 public class remplirEau extends Evenement{
 	private Simulateur simul;
@@ -28,7 +27,7 @@ public class remplirEau extends Evenement{
 			else {
 				System.out.println("Robot plein et pret");
 			}
-			
+			/*
 			//cas scenario
 			robot.getDestination().add(Direction.EST);
 			long date=(long) (simul.getTime()+ (simul.data.map.getTailleCases()/
@@ -37,6 +36,7 @@ public class remplirEau extends Evenement{
 			simul.ajouteEvenement(new DeplacerRobot(date, robot, simul.data.map.getVoisin(robot.getPosition(), 
 					Direction.EST), simul));
 			robot.setDeplacement(false);
+			*/
 			return true;
         }
 }

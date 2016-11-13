@@ -9,7 +9,8 @@ public class Carte {
 	public Case map[][] ;
 	private int tailleCases;
 	public LinkedList<Case> ListeEau;
-	
+	public LinkedList<Case> ListeVoisinEau;
+
 	public int getNbLignes(){
 		return this.nbLignes;
 	}

@@ -177,7 +177,6 @@ public class LecteurDonnees {
                     + "Attendu: nature altitude [valeur_specifique]");
         }
 
-        System.out.println();
     }
     /**
      * Lit et affiche les donnees d'une case.
@@ -353,7 +352,6 @@ public class LecteurDonnees {
             }
             verifieLigneTerminee();
 
-            System.out.println();
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de robot invalide. "

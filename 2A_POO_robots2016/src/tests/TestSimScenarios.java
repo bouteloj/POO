@@ -2,11 +2,10 @@ package tests;
 
 import java.util.ListIterator;
 
-import events.DeplacerRobot;
-
 import robots.Robot;
 import simulateur.Simulateur;
 import src.Direction;
+import events.DeplacerRobot;
 
 public class TestSimScenarios {
 
@@ -37,7 +36,6 @@ public class TestSimScenarios {
 		ListIterator<Robot> robotIterator2=s.data.robots.listIterator(0);
 		while (robotIterator2.hasNext()){
 			Temp = robotIterator2.next();
-			System.out.println(Temp.getDestination().size());
 
 			if (Temp.getDestination().size()!=0){
 				

@@ -1,14 +1,14 @@
 package events; 
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import robots.Robot;
 import simulateur.Simulateur;
 import src.Case;
 import src.Direction;
 import src.Incendie;
 import staticF.Utilities;
-
-import java.util.LinkedList;
-import java.util.Iterator;
 
 public class VerserEau extends Evenement{
 	private Incendie incendie;
@@ -43,7 +43,13 @@ public class VerserEau extends Evenement{
 				System.out.println("Feu eteint et il ne reste plus d'eau dans le robot");
 			}
 			// On cherche le point d'eau auquel on va aller se recharger
-			LinkedList<Case> L  = simul.data.map.ListeEau;
+			LinkedList<Case> L=new LinkedList<Case>();
+			if (robot.getCapaciteMax()==10000){
+				L  = simul.data.map.ListeEau;
+			}else{
+				L  = simul.data.map.ListeVoisinEau;
+			}
+			
 			Iterator<Case> itrL = L.iterator();
 			Case PointEauChoisi = L.getFirst();
 			Case PointEauTeste;
@@ -64,6 +70,8 @@ public class VerserEau extends Evenement{
 				}
 			}
 				robot.setDestination(Utilities.dijkstra(simul, robot, PointEauChoisi));
+				if (simul.data.map ==null){System.out.println("simul");}
+
 				long date = (long) (simul.getTime() + robot.getTempsDeplacement(robot.getPosition(),simul.data.map.getVoisin(robot.getPosition(),robot.getDestination().peek()),simul.data.map.getTailleCases()));
 				simul.ajouteEvenement(new DeplacerRobot(date, robot,simul.data.map.getVoisin(robot.getPosition(),robot.getDestination().poll()),simul));
 				

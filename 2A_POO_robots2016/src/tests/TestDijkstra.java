@@ -1,8 +1,8 @@
 package tests;
 
-import events.DeplacerRobot;
 import simulateur.Simulateur;
 import staticF.Utilities;
+import events.DeplacerRobot;
 
 public class TestDijkstra {
 	public static void main(String[] args) {
