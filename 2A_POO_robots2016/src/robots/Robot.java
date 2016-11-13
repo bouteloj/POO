@@ -53,6 +53,9 @@ public abstract class Robot {
 	}
 	public double getTempsDeplacement(Case depart, Case destination, int tailleCases){
 		
+		if (getVitesse(destination.getNature())==0){
+			return Double.MAX_VALUE;
+		}
 		return 2/(getVitesse(depart.getNature()) + getVitesse(destination.getNature()))*(tailleCases);
 	}
 	

@@ -21,15 +21,31 @@ public class Carte {
 	}
 
 	public boolean unVoisinEau(Case c) {
-		if((this.voisinExiste(c, Direction.NORD) && this.getVoisin(c, Direction.NORD).getNature() == NatureTerrain.EAU)
-			|| (this.voisinExiste(c, Direction.SUD) && this.getVoisin(c, Direction.SUD).getNature() == NatureTerrain.EAU)
-			|| (this.voisinExiste(c, Direction.EST) && this.getVoisin(c, Direction.EST).getNature() == NatureTerrain.EAU)
-			|| (this.voisinExiste(c, Direction.OUEST)  && this.getVoisin(c, Direction.OUEST).getNature() == NatureTerrain.EAU)
-			|| (c.getNature() == NatureTerrain.EAU)){
-				return true;
-		} else {
-			return false;
+		boolean retour=false;
+		if (this.voisinExiste(c, Direction.NORD)){
+			if (this.getVoisin(c, Direction.NORD).getNature() == NatureTerrain.EAU){
+				retour=true;
+			}
 		}
+		if (this.voisinExiste(c, Direction.SUD)){
+			if (this.getVoisin(c, Direction.SUD).getNature() == NatureTerrain.EAU){
+				retour=true;
+			}
+		}
+		if (this.voisinExiste(c, Direction.EST)){
+			if (this.getVoisin(c, Direction.EST).getNature() == NatureTerrain.EAU){
+				retour=true;
+			}
+		}
+		if (this.voisinExiste(c, Direction.OUEST)){
+			if (this.getVoisin(c, Direction.OUEST).getNature() == NatureTerrain.EAU){
+				retour=true;
+			}
+		}
+		
+		
+		return retour;
+		
 	}
 
 	public void setNbLignes(int nb){
@@ -48,11 +64,11 @@ public class Carte {
 		case EST:
 			return (pos.getColonne()<this.nbColonnes-1);
 		case NORD:
-			return (pos.getLigne()<this.nbLignes-1);
+			return (pos.getLigne()>0);
 		case OUEST:
 			return (pos.getColonne()>0);
 		case SUD:
-			return (pos.getLigne()>0);
+			return (pos.getLigne()<this.nbLignes-1);
 		default:
 			return false;
 		

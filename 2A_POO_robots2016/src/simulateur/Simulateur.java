@@ -29,9 +29,11 @@ public class Simulateur implements Simulable {
 	private long time;
 	private PriorityQueue<Evenement> events;
 	int x;
+	String path;
 	
 	public Simulateur(String pathMap){
 		x = 400;//modify for window size
+		this.path=pathMap;
 		data=new DonneesSimulation(pathMap);
 		gui = new GUISimulator(x,x,Color.black,this);
 		time=0;
@@ -58,7 +60,10 @@ public class Simulateur implements Simulable {
 
 	@Override
 	public void restart() {
-		// TODO Auto-generated method stub
+		data=new DonneesSimulation(path);
+		time=0;
+		events=new PriorityQueue<Evenement>(10,new PrioEvent());
+		Afficher();
 
 	}
 	// On affiche la simulation ayant pour données data
