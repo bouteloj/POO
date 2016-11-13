@@ -37,7 +37,7 @@ public class Utilities {
 				trouve=true;
 			}
 			if (courant.l>0){
-				if (!graph[courant.l-1][courant.c].traité){
+				if (!graph[courant.l-1][courant.c].traite){
 					graph[courant.l-1][courant.c].longueurTrajet=(int) (courant.longueurTrajet+
 							rob.getTempsDeplacement(simul.data.map.getCase(courant.l, courant.c),
 									simul.data.map.getCase(courant.l-1, courant.c),
@@ -48,7 +48,7 @@ public class Utilities {
 			}
 			
 			if (courant.l<simul.data.map.getNbLignes()-1){
-				if (!graph[courant.l+1][courant.c].traité){
+				if (!graph[courant.l+1][courant.c].traite){
 					graph[courant.l+1][courant.c].longueurTrajet=(int) (courant.longueurTrajet+
 							rob.getTempsDeplacement(simul.data.map.getCase(courant.l, courant.c),
 									simul.data.map.getCase(courant.l+1, courant.c),
@@ -59,7 +59,7 @@ public class Utilities {
 			}
 			
 			if (courant.c>0){
-				if (!graph[courant.l][courant.c-1].traité){
+				if (!graph[courant.l][courant.c-1].traite){
 					graph[courant.l][courant.c-1].longueurTrajet=(int) (courant.longueurTrajet+
 							rob.getTempsDeplacement(simul.data.map.getCase(courant.l, courant.c),
 									simul.data.map.getCase(courant.l, courant.c-1),
@@ -69,7 +69,7 @@ public class Utilities {
 				}
 			}
 			if (courant.c<simul.data.map.getNbColonnes()-1){
-				if (!graph[courant.l][courant.c+1].traité){
+				if (!graph[courant.l][courant.c+1].traite){
 					graph[courant.l][courant.c+1].longueurTrajet=(int) (courant.longueurTrajet+
 							rob.getTempsDeplacement(simul.data.map.getCase(courant.l, courant.c),
 									simul.data.map.getCase(courant.l, courant.c+1),
@@ -78,7 +78,7 @@ public class Utilities {
 					aTraiter.add(graph[courant.l][courant.c+1]);
 				}
 			}
-			courant.traité=true;
+			courant.traite=true;
 		}
 		
 		if (courant!=arrivee){
