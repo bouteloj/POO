@@ -2,8 +2,13 @@ package events;
 
 import robots.Robot;
 import simulateur.Simulateur;
+import src.Case;
 import src.Direction;
 import src.Incendie;
+import staticF.Utilities;
+
+import java.util.LinkedList;
+import java.util.Iterator;
 
 public class VerserEau extends Evenement{
 	private Incendie incendie;
@@ -27,19 +32,54 @@ public class VerserEau extends Evenement{
 				simul.data.incendies.remove(incendie);
 			}else{
 				simul.ajouteEvenement(new VerserEau(date + robot.tempsIntervention(), incendie, robot, simul));
+				return true;
 			}
 		
-		}else  {
-			System.out.println("Robot vide");
-			//cas scenario
+		}
+		if(robot.getCapacite() == 0){
+			if (this.incendie.getVerser() > 0){
+				System.out.println("Robot vide et le feu brule toujours. Vite aller se recharger");
+			}else{
+				System.out.println("Feu eteint et il ne reste plus d'eau dans le robot");
+			}
+			// On cherche le point d'eau auquel on va aller se recharger
+			LinkedList<Case> L  = simul.data.map.ListeEau;
+			Iterator<Case> itrL = L.iterator();
+			Case PointEauChoisi = L.getFirst();
+			Case PointEauTeste;
+			LinkedList<Direction> ListDir = Utilities.dijkstra(simul, robot, PointEauChoisi);
+			double Temps;
+				
+			if (ListDir != null){
+				Temps = Utilities.poids(simul, robot, robot.getPosition(), ListDir);
+			}else{ // Cas ou le premier element de ListeEau n'est pas atteignable
+				Temps = Integer.MAX_VALUE;
+			}
+			while (itrL.hasNext()){
+				PointEauTeste = itrL.next();
+				ListDir = Utilities.dijkstra(simul, robot, PointEauTeste);
+				if ((ListDir != null) && Temps > Utilities.poids(simul, robot, robot.getPosition(), ListDir)){
+					Temps = Utilities.poids(simul, robot, robot.getPosition(), ListDir);
+					PointEauChoisi = PointEauTeste;
+				}
+			}
+				robot.setDestination(Utilities.dijkstra(simul, robot, PointEauChoisi));
+				long date = (long) (simul.getTime() + robot.getTempsDeplacement(robot.getPosition(),simul.data.map.getVoisin(robot.getPosition(),robot.getDestination().peek()),simul.data.map.getTailleCases()));
+				simul.ajouteEvenement(new DeplacerRobot(date, robot,simul.data.map.getVoisin(robot.getPosition(),robot.getDestination().poll()),simul));
+				
+		}else { // Cas ou le robot a eteint le feu et qu'il lui reste de l'eau. 
+				System.out.println("Feu eteint et il reste de l'eau dans le robot. Robot dispo pour chef");
+				robot.setDeplacement(false);		
+		}
+			/*//cas scenario
 			robot.getDestination().add(Direction.OUEST);
 			long date=(long) (simul.getTime()+ (simul.data.map.getTailleCases()/
 					robot.getVitesse(simul.data.map.getVoisin(robot.getPosition(), 
 							Direction.OUEST).getNature())));
 			simul.ajouteEvenement(new DeplacerRobot(date, robot, simul.data.map.getVoisin(robot.getPosition(), 
-					Direction.OUEST), simul));
-			//TODO Remplir lors de la prise de d�cision
-		}
-		return true;
-	}
+					Direction.OUEST), simul));*/
+			return true;
+			}
 }
+
+

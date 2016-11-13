@@ -12,7 +12,7 @@ public class Utilities {
 	
 	
 	
-	public LinkedList<Direction> dijkstra(Simulateur simul, Robot rob, Case dest){
+	public static LinkedList<Direction> dijkstra(Simulateur simul, Robot rob, Case dest){
 		//init graph
 		CasePourDijkstra[][] graph= new CasePourDijkstra[simul.data.map.getNbLignes()][simul.data.map.getNbColonnes()];
 		for (int i=0; i<simul.data.map.getNbLignes(); i++){
@@ -47,7 +47,7 @@ public class Utilities {
 	
 	
 	
-	private static double poids(Simulateur simul, Robot rob, Case c, LinkedList<Direction> list){
+	public static double poids(Simulateur simul, Robot rob, Case c, LinkedList<Direction> list){
 		Iterator<Direction> itr = list.iterator();
 		Case c2 = simul.data.map.getVoisin(c, list.getFirst());
 		double p = rob.getTempsDeplacement( c, c2, simul.data.map.getTailleCases());

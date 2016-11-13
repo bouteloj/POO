@@ -13,7 +13,7 @@ public abstract class Robot {
 	protected Case position;
     protected int capacite;
     protected int vitesse;
-    protected boolean enDeplacement;
+    protected boolean enDeplacement=false;
     java.lang.String fileName;
     LinkedList<Direction> destination;
     
@@ -34,9 +34,13 @@ public abstract class Robot {
     public boolean getDeplacement(){
     	return this.enDeplacement;
     }
-    
+   
     public LinkedList<Direction> getDestination(){
     	return this.destination;
+    }
+    
+    public void setDestination(LinkedList<Direction> liste){
+    	this.destination = liste;
     }
     
 	public Case getPosition(){

@@ -22,11 +22,13 @@ public class DeplacerRobot extends Evenement{
 		if (rob.getDestination().size() == 0){
 			sim.ajouteEvenement(new RobotArrive(date,rob,sim));
 		}else{
+			rob.setDeplacement(true);
 			long newdate=(long) (sim.getTime()+(sim.data.map.getTailleCases()/
 					rob.getVitesse(sim.data.map.getVoisin(dest, rob.getDestination().peek()).getNature())));
 			sim.ajouteEvenement(new DeplacerRobot(
 					newdate,rob,sim.data.map.getVoisin(dest, rob.getDestination().poll()),sim));
 		}
+		rob.setDeplacement(false);
 		return true;
 		
 		

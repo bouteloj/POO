@@ -19,6 +19,7 @@ public class remplirEau extends Evenement{
         @Override
 		public boolean execute(){
 			if (robot.getCapacite() < robot.getCapaciteMax()) {
+				robot.setDeplacement(true);
 				this.robot.remplirReservoir(carte);
 				System.out.println("Robot rempli");
 
@@ -35,7 +36,7 @@ public class remplirEau extends Evenement{
 							Direction.EST).getNature())));
 			simul.ajouteEvenement(new DeplacerRobot(date, robot, simul.data.map.getVoisin(robot.getPosition(), 
 					Direction.EST), simul));
-			
+			robot.setDeplacement(false);
 			return true;
         }
 }

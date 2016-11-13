@@ -2,6 +2,7 @@ package simulateur;
 
 
 import java.awt.Color;
+import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.PriorityQueue;
 
@@ -9,12 +10,12 @@ import javax.swing.JFrame;
 
 import events.Evenement;
 import events.PrioEvent;
-
 import gui.GUISimulator;
 import gui.ImageElement;
 import gui.Rectangle;
 import gui.Simulable;
 import robots.Robot;
+import src.Case;
 import src.DonneesSimulation;
 import src.Incendie;
 
@@ -22,7 +23,6 @@ import src.Incendie;
 
 
 public class Simulateur implements Simulable {
-
 
 	public DonneesSimulation data;
 	public GUISimulator gui;

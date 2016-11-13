@@ -169,7 +169,9 @@ public class LecteurDonnees {
 
             verifieLigneTerminee();
             map.map[lig][col].setNature(NatureTerrain.valueOf(chaineNature));
-            
+            if (NatureTerrain.valueOf(chaineNature) == NatureTerrain.EAU){
+            	map.ListeEau.add(map.map[lig][col]);
+            }        
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de case invalide. "
                     + "Attendu: nature altitude [valeur_specifique]");

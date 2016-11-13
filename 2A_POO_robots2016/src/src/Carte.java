@@ -1,11 +1,14 @@
 package src;
 
+import java.util.LinkedList;
+
 
 public class Carte {
 	private int nbLignes;
 	private int nbColonnes;
 	public Case map[][] ;
 	private int tailleCases;
+	public LinkedList<Case> ListeEau;
 	
 	public int getNbLignes(){
 		return this.nbLignes;
