@@ -6,13 +6,20 @@ import robots.Robot;
 import simulateur.Simulateur;
 import src.Case;
 import src.Direction;
+import java.util.Iterator;
 
 public class Utilities {
 	
-	private static int poids(Simulateur simul, Robot rob, LinkedList<Direction> list){
-		
-		
-		return 0;
+	private static double poids(Simulateur simul, Robot rob, Case c, LinkedList<Direction> list){
+		Iterator<Direction> itr = list.iterator();
+		Case c2 = simul.data.map.getVoisin(c, list.getFirst());
+		double p = rob.getTempsDeplacement( c, c2, simul.data.map.getTailleCases());
+		while(itr.hasNext()){
+			c = c2;
+			c2 = simul.data.map.getVoisin(c, itr.next());
+			p += rob.getTempsDeplacement( c, c2, simul.data.map.getTailleCases());
+		}
+		return p;
 	}
 
 	
@@ -60,7 +67,7 @@ public class Utilities {
 				switch (java.lang.Math.min(java.lang.Math.min(Nord,Sud),java.lang.Math.min(Est,Ouest))){
 				case Nord:
 						tempNord.addFirst(Direction.NORD);
-						return tempNord
+						return tempNord;
 					break;
 				case Sud:
 					
@@ -80,7 +87,7 @@ public class Utilities {
 		
 		
 			
-		return returnlist;
+		return returnList;
 			
 	}
 	
