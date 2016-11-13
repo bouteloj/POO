@@ -12,6 +12,21 @@ public class Utilities {
 	
 	
 	
+	public LinkedList<Direction> dijkstra(Simulateur simul, Robot rob, Case dest){
+		//init graph
+		CasePourDijkstra[][] graph= new CasePourDijkstra[simul.data.map.getNbLignes()][simul.data.map.getNbColonnes()];
+		for (int i=0; i<simul.data.map.getNbLignes(); i++){
+			for (int j=0; j<simul.data.map.getNbColonnes(); j++){
+				graph[i][j]=new CasePourDijkstra();
+			}
+		}
+		//init listes
+		LinkedList<CasePourDijkstra> aTtraiter=new LinkedList<CasePourDijkstra>();
+		LinkedList<CasePourDijkstra> traitees=new LinkedList<CasePourDijkstra>();
+		//init case depart + sauvegarde case arrivee
+		graph[rob.getPosition().getLigne()][rob.getPosition().getColonne()].longueurTrajet=0;
+		CasePourDijkstra arrivee=graph[dest.getLigne()][dest.getColonne()];
+	}
 	
 	
 	
