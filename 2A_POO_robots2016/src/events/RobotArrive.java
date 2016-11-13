@@ -1,5 +1,13 @@
 package events; 
 
+import java.util.Iterator;
+
+import robots.Robot;
+import simulateur.Simulateur;
+import src.Carte;
+import src.Case;
+import src.Incendie;
+
 public class RobotArrive extends Evenement{
 	
 	private Simulateur simul;
@@ -7,45 +15,62 @@ public class RobotArrive extends Evenement{
 	private Incendie incendie;
 	private Carte carte;
 	
-	public RobotArrive(long date) {
+	public RobotArrive(long date, Robot r,Simulateur s) {
 		super(date);
+		this.robot=r;
+		this.simul=s;
+		this.carte=simul.data.map;
+		Iterator<Incendie> itr=this.simul.data.incendies.iterator();
+		Incendie Temp;
+		while(itr.hasNext()){
+			Temp=itr.next();
+			if(robot.getPosition().equals(Temp.getPosition())){
+				this.incendie=Temp;
+			}			
+		}
+		if (this.incendie==null){
+			this.incendie=new Incendie(new Case(-1,-1),1);
+		}
 	}
 
 	@Override
 	public boolean execute(){
 		System.out.println("Le robot est arrive");
 		System.out.println("Il va pouvoir commencer sa tache");
-		
+		long newdate;
 		// Dans ce cas le robot est sur un incendie
 		if (robot.getPosition().equals(incendie.getPosition())){
 			
-			// Dans ce cas il a vidé son eau et est sur un incendie (cette incendie est donc situé à 
-			// côté d'un point d'eau.
+			// Dans ce cas il a vidÔøΩ son eau et est sur un incendie (cette incendie est donc situÔøΩ ÔøΩ 
+			// cÔøΩtÔøΩ d'un point d'eau.
 			if(robot.getCapacite() == 0){ 
 				if(carte.unVoisinEau(robot.getPosition())){
-					simul.ajouteEvenement(new remplirEau(date, carte, robot));
+					newdate=simul.getTime()+robot.tempsRemplissage();
+					simul.ajouteEvenement(new remplirEau(newdate, simul, robot));
 				}
 				
-				// Il y a erreur car on ne doit pas avoir d'appel à RobotArrive alors que le robot n'a 
-				// plus d'eau et qu'il n'est pas à côté ou sur un point d'eau
+				// Il y a erreur car on ne doit pas avoir d'appel ÔøΩ RobotArrive alors que le robot n'a 
+				// plus d'eau et qu'il n'est pas ÔøΩ cÔøΩtÔøΩ ou sur un point d'eau
 				else{
 					System.out.println("Erreur");
 					return false;
 				}
 			}
-			// Dans ce cas le robot est sur un incendie et doit commencer à l'éteindre
+			// Dans ce cas le robot est sur un incendie et doit commencer ÔøΩ l'ÔøΩteindre
 			else{
+				newdate=simul.getTime()+robot.tempsIntervention();
 				simul.ajouteEvenement(new VerserEau(date, incendie, robot, simul));
 			}
-			// Dans ce cas le robot est à côté ou sur un point d'eau pour remplir son stock d'eau
+			// Dans ce cas le robot est ÔøΩ cÔøΩtÔøΩ ou sur un point d'eau pour remplir son stock d'eau
 		}else if (carte.unVoisinEau(robot.getPosition())){
 			// On remplit donc le robot
-			simul.ajouteEvenement(new remplirEau(date, carte, robot));
+			newdate=simul.getTime()+robot.tempsRemplissage();
+			simul.ajouteEvenement(new remplirEau(newdate, simul, robot));
 			
-			/* Dans ce cas le robot est arrivé sur un point où il n'y a ni point d'eau à 
-			 proximité ni d'incendie. Il y a certainement une erreur ou c'est la fin du programme*/
+			/* Dans ce cas le robot est arrivÔøΩ sur un point oÔøΩ il n'y a ni point d'eau ÔøΩ 
+			 proximitÔøΩ ni d'incendie. Il y a certainement une erreur ou c'est la fin du programme*/
 		}else{
-			System.out.println("Erreur: le robot est arrive sur une case n'ayant ni point d'eau ou incendie. Soit le programme est terminé, soit il y a un problème");
+			System.out.println("Erreur: le robot est arrive sur une case n'ayant ni point d'eau ou incendie. Soit le programme est terminÔøΩ, soit il y a un problÔøΩme");
 			return false;
 		}
 		return true;

@@ -14,9 +14,9 @@ import gui.GUISimulator;
 import gui.ImageElement;
 import gui.Rectangle;
 import gui.Simulable;
+import robots.Robot;
 import src.DonneesSimulation;
 import src.Incendie;
-import src.Robot;
 
 
 
@@ -31,12 +31,12 @@ public class Simulateur implements Simulable {
 	int x;
 	
 	public Simulateur(String pathMap){
-		x = 800;
+		x = 400;//modify for window size
 		data=new DonneesSimulation(pathMap);
 		gui = new GUISimulator(x,x,Color.black,this);
 		time=0;
 		events=new PriorityQueue<Evenement>(10,new PrioEvent());
-		Afficher(x);
+		Afficher();
 	}
 	
 	public long getTime(){
@@ -46,10 +46,14 @@ public class Simulateur implements Simulable {
 	@Override
 	public void next() {
 		this.time++;
+
+		if(this.events.size()==0){return;}
 		while(this.events.peek().getDate()<this.time){
 			this.events.poll().execute();
+			if(this.events.size()==0){break;}
+
 		}
-		Afficher(x);
+		Afficher();
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class Simulateur implements Simulable {
 
 	}
 	// On affiche la simulation ayant pour données data
-	public void Afficher(int x){
+	public void Afficher(){
 		gui.reset();
 		
 		int tailleCaseAffichage = x/data.map.getNbLignes();
@@ -66,23 +70,23 @@ public class Simulateur implements Simulable {
 		
 		Incendie Temp;
 		Robot Temp2;
-		for(int i=0; i<data.map.getNbLignes();i++){
-			for(int j=0; j<data.map.getNbColonnes();j++){
+		for(int j=0; j<data.map.getNbLignes();j++){
+			for(int i=0; i<data.map.getNbColonnes();i++){
 				switch(String.valueOf(data.map.map[i][j].getNature())){ 
 				case "EAU":
-					gui.addGraphicalElement(new Rectangle(i*tailleCaseAffichage+tailleCaseAffichage/2, j*tailleCaseAffichage+tailleCaseAffichage/2, Color.black, Color.blue, tailleCaseAffichage));
+					gui.addGraphicalElement(new Rectangle(j*tailleCaseAffichage+tailleCaseAffichage/2, i*tailleCaseAffichage+tailleCaseAffichage/2, Color.black, Color.blue, tailleCaseAffichage));
 					break;
 				case "FORET":
-					gui.addGraphicalElement(new Rectangle(i*tailleCaseAffichage+tailleCaseAffichage/2, j*tailleCaseAffichage+tailleCaseAffichage/2, Color.black, Color.green,tailleCaseAffichage));
+					gui.addGraphicalElement(new Rectangle(j*tailleCaseAffichage+tailleCaseAffichage/2, i*tailleCaseAffichage+tailleCaseAffichage/2, Color.black, Color.green,tailleCaseAffichage));
 					break;
 				case "ROCHE":
-					gui.addGraphicalElement(new Rectangle(i*tailleCaseAffichage+tailleCaseAffichage/2, j*tailleCaseAffichage+tailleCaseAffichage/2, Color.black, Color.GRAY,tailleCaseAffichage));
+					gui.addGraphicalElement(new Rectangle(j*tailleCaseAffichage+tailleCaseAffichage/2, i*tailleCaseAffichage+tailleCaseAffichage/2, Color.black, Color.GRAY,tailleCaseAffichage));
 					break;
 				case "TERRAIN_LIBRE":
-					gui.addGraphicalElement(new Rectangle(i*tailleCaseAffichage+tailleCaseAffichage/2, j*tailleCaseAffichage+tailleCaseAffichage/2, Color.black, Color.white,tailleCaseAffichage));
+					gui.addGraphicalElement(new Rectangle(j*tailleCaseAffichage+tailleCaseAffichage/2, i*tailleCaseAffichage+tailleCaseAffichage/2, Color.black, Color.white,tailleCaseAffichage));
 					break;
 				case "HABITAT":
-					gui.addGraphicalElement(new Rectangle(i*tailleCaseAffichage+tailleCaseAffichage/2, j*tailleCaseAffichage+tailleCaseAffichage/2, Color.black, Color.yellow,tailleCaseAffichage));
+					gui.addGraphicalElement(new Rectangle(j*tailleCaseAffichage+tailleCaseAffichage/2, i*tailleCaseAffichage+tailleCaseAffichage/2, Color.black, Color.yellow,tailleCaseAffichage));
 					break;
 				}
 			}
@@ -91,18 +95,18 @@ public class Simulateur implements Simulable {
 		Temp = data.incendies.getFirst();
 		ListIterator<Incendie> IncendieIterator=data.incendies.listIterator(0);
 		while (IncendieIterator.hasNext()){
-			gui.addGraphicalElement(new ImageElement(Temp.position.getLigne()*tailleCaseAffichage,Temp.position.getColonne()*tailleCaseAffichage,fileNameincend,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+			gui.addGraphicalElement(new ImageElement(Temp.position.getColonne()*tailleCaseAffichage,Temp.position.getLigne()*tailleCaseAffichage,fileNameincend,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 			Temp = IncendieIterator.next();
 		}
-		gui.addGraphicalElement(new ImageElement(Temp.position.getLigne()*tailleCaseAffichage,Temp.position.getColonne()*tailleCaseAffichage,fileNameincend,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+		gui.addGraphicalElement(new ImageElement(Temp.position.getColonne()*tailleCaseAffichage,Temp.position.getLigne()*tailleCaseAffichage,fileNameincend,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 
 		Temp2 = data.robots.getFirst();
 		ListIterator<Robot> robotIterator=data.robots.listIterator(0);
 		while (robotIterator.hasNext()){
-			gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getPosition().getColonne()*tailleCaseAffichage,Temp2.getpicname(),tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+			gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getColonne()*tailleCaseAffichage,Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getpicname(),tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 			Temp2 = robotIterator.next();
 		}
-		gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getPosition().getColonne()*tailleCaseAffichage,Temp2.getpicname(),tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
+		gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getColonne()*tailleCaseAffichage,Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getpicname(),tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 
 	}
 	

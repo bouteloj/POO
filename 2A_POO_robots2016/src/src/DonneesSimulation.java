@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.zip.DataFormatException;
 
+import robots.Robot;
+
 import io.LecteurDonnees;
 
 public class DonneesSimulation {

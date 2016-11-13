@@ -1,4 +1,9 @@
-package src;
+package robots;
+
+import src.Carte;
+import src.Case;
+import src.Incendie;
+import src.NatureTerrain;
 
 public class Robot_A_Pattes extends Robot {
 	public Robot_A_Pattes(Case pos, int vitesse){

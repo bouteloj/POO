@@ -1,6 +1,12 @@
-package src;
+package robots;
 
 import java.util.LinkedList;
+
+import src.Carte;
+import src.Case;
+import src.Direction;
+import src.Incendie;
+import src.NatureTerrain;
 
 
 public abstract class Robot {

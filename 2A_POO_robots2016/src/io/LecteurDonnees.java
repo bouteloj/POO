@@ -9,15 +9,15 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.zip.DataFormatException;
 
+import robots.Drone;
+import robots.Robot;
+import robots.Robot_A_Chenilles;
+import robots.Robot_A_Pattes;
+import robots.Robot_A_Roues;
 import src.Carte;
 import src.Case;
-import src.Drone;
 import src.Incendie;
 import src.NatureTerrain;
-import src.Robot;
-import src.Robot_A_Chenilles;
-import src.Robot_A_Pattes;
-import src.Robot_A_Roues;
 
 
 
@@ -72,7 +72,7 @@ public class LecteurDonnees {
 	     * @paramincendies liste vide d'incendies
 	     */
 	    public static void lire(String fichierDonnees, src.Carte map,
-	    		LinkedList<src.Robot> robots, LinkedList<src.Incendie> incendies)
+	    		LinkedList<robots.Robot> robots, LinkedList<src.Incendie> incendies)
 	    				throws FileNotFoundException, DataFormatException {
 	        System.out.println("\n == Lecture du fichier" + fichierDonnees);
 	        LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
@@ -201,7 +201,6 @@ public class LecteurDonnees {
                     + "Attendu: nature altitude [valeur_specifique]");
         }
 
-        System.out.println();
     }
 
     /**
@@ -379,7 +378,7 @@ public class LecteurDonnees {
             
             
             
-            switch (type){  //TODO fill constructor
+            switch (type){  
             	case "ROUES":
             		if (s==null)
             			vitesse=80;
@@ -410,7 +409,6 @@ public class LecteurDonnees {
 			
             verifieLigneTerminee();
 
-            System.out.println();
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de robot invalide. "
