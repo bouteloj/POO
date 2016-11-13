@@ -25,7 +25,7 @@ public class Carte {
 			|| (this.voisinExiste(c, Direction.SUD) && this.getVoisin(c, Direction.SUD).getNature() == NatureTerrain.EAU)
 			|| (this.voisinExiste(c, Direction.EST) && this.getVoisin(c, Direction.EST).getNature() == NatureTerrain.EAU)
 			|| (this.voisinExiste(c, Direction.OUEST)  && this.getVoisin(c, Direction.OUEST).getNature() == NatureTerrain.EAU)
-			|| (this.getNature() == NatureTerrain.EAU)){
+			|| (c.getNature() == NatureTerrain.EAU)){
 				return true;
 		} else {
 			return false;

@@ -14,9 +14,9 @@ import gui.GUISimulator;
 import gui.ImageElement;
 import gui.Rectangle;
 import gui.Simulable;
+import robots.Robot;
 import src.DonneesSimulation;
 import src.Incendie;
-import src.Robot;
 
 
 

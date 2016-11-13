@@ -20,10 +20,11 @@ public class Incendie {
 		return this.litresAVerser;
 	}
 	public int verser(int verse){
-		if (this.litresAVerser >= verse){
+		if (this.litresAVerser > verse){
 			this.litresAVerser-= verse;
 		}else{
 			this.litresAVerser=0;
+			System.out.println("incendie éteint");
 		}
 		return this.litresAVerser;
 	}

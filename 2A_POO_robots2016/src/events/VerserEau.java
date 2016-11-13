@@ -1,4 +1,9 @@
-package events 
+package events; 
+
+import robots.Robot;
+import simulateur.Simulateur;
+import src.Direction;
+import src.Incendie;
 
 public class VerserEau extends Evenement{
 	private Incendie incendie;
@@ -15,19 +20,26 @@ public class VerserEau extends Evenement{
 	}
 	
 	@Override
-	public void execute(){
+	public boolean execute(){
 	
-	
-		if ((this.incentie.getVerser != 0 ) && (robot.deverserEau(incendie))){
+		if ((this.incendie.getVerser() != 0 ) && (robot.deverserEau(incendie))){
 			if (incendie.getVerser() <= 0) {
 				simul.data.incendies.remove(incendie);
 			}else{
-				simul.ajouteEvenement(new VerserEau(date + robot.tempsIntervention, incendie, robot, simul));
+				simul.ajouteEvenement(new VerserEau(date + robot.tempsIntervention(), incendie, robot, simul));
 			}
 		
 		}else  {
-			
-			//TODO Remplir lors de la prise de dŽcision
+			System.out.println("Robot vide");
+			//cas scenario
+			robot.getDestination().add(Direction.OUEST);
+			long date=(long) (simul.getTime()+ (simul.data.map.getTailleCases()/
+					robot.getVitesse(simul.data.map.getVoisin(robot.getPosition(), 
+							Direction.OUEST).getNature())));
+			simul.ajouteEvenement(new DeplacerRobot(date, robot, simul.data.map.getVoisin(robot.getPosition(), 
+					Direction.OUEST), simul));
+			//TODO Remplir lors de la prise de dï¿½cision
 		}
+		return true;
 	}
 }
