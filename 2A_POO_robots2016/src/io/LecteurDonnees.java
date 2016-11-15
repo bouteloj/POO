@@ -27,9 +27,9 @@ import src.NatureTerrain;
  * puis simplement affichées.
  * A noter: pas de vérification sémantique sur les valeurs numériques lues.
  *
- * IMPORTANT:
+ * IMPORTANT: CLASSE MODIFIEE
  *
- * Cette classe ne fait que LIRE les infos et les afficher.
+ * Cette classe LIT les infos et les sauvegarde dans DonneeSimulation.
  * A vous de modifier ou d'ajouter des méthodes, inspirées de celles présentes
  * (ou non), qui CREENT les objets au moment adéquat pour construire une
  * instance de la classe DonneesSimulation à partir d'un fichier.

@@ -8,8 +8,8 @@ public class Carte {
 	private int nbColonnes;
 	public Case map[][] ;
 	private int tailleCases;
-	public LinkedList<Case> ListeEau;
-	public LinkedList<Case> ListeVoisinEau;
+	public LinkedList<Case> ListeEau; //liste des cases d'eau presentes sur la carte
+	public LinkedList<Case> ListeVoisinEau;//liste des cases voisines d'une case d'eau presentes sur la carte
 
 	public int getNbLignes(){
 		return this.nbLignes;
@@ -24,6 +24,20 @@ public class Carte {
 		return map[x][y];
 	}
 
+
+	public void setNbLignes(int nb){
+		this.nbLignes=nb;
+	}
+	public void setNbColonnes(int nb){
+		this.nbColonnes=nb;
+	}
+	public void setTailleCases(int taille){
+		this.tailleCases=taille;
+	}
+	
+	/*
+	 * return true ssi la case c a au moins une voisine de nature EAU
+	 */
 	public boolean unVoisinEau(Case c) {
 		boolean retour=false;
 		if (this.voisinExiste(c, Direction.NORD)){
@@ -52,17 +66,9 @@ public class Carte {
 		
 	}
 
-	public void setNbLignes(int nb){
-		this.nbLignes=nb;
-	}
-	public void setNbColonnes(int nb){
-		this.nbColonnes=nb;
-	}
-	public void setTailleCases(int taille){
-		this.tailleCases=taille;
-	}
-	
-
+	/*
+	 *return true ssi la case pos n'est pas sur le bord 'dir' de la carte 
+	 */
 	public boolean voisinExiste(Case pos, Direction dir){
 		switch (dir) {
 		case EST:
@@ -79,6 +85,10 @@ public class Carte {
 		}
 	}
 	
+	/*
+	 * renvoie la case voisine de pos dans la direction dir
+	 * Warning: requiert voisinExiste(pos,dir)
+	 */
 	public Case getVoisin(Case pos, Direction dir){
 		switch (dir){
 		case EST:
@@ -94,6 +104,9 @@ public class Carte {
 		}
 	}
 	
+	/*
+	 * renvoie true ssi c1 et c2 sont voisines.
+	 */
 	public boolean estVoisin(Case c1, Case c2){
 		return (((c1.getLigne()-c2.getLigne()==1 || c1.getLigne()-c2.getLigne()==-1) && c1.getColonne()==c2.getColonne())
 				|| ((c1.getColonne()-c2.getColonne()==1 || c1.getColonne()-c2.getColonne()==-1) && c1.getLigne()==c2.getLigne()));

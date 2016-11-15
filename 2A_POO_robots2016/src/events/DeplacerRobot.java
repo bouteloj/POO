@@ -4,9 +4,12 @@ import robots.Robot;
 import simulateur.Simulateur;
 import src.Case;
 
+/*
+ * deplacement elementaire d'un robot
+ */
 public class DeplacerRobot extends Evenement{
-	private Robot rob;
-	private Case dest;
+	private Robot rob; //robot concerné
+	private Case dest;//destination elementaire
 	private Simulateur sim;
 	
 	public DeplacerRobot(long date,Robot rob,Case dest,Simulateur sim) {
@@ -16,6 +19,10 @@ public class DeplacerRobot extends Evenement{
 		this.sim=sim;
 	}
 	
+	/*
+	 * deplace effectivement le robot
+	 * cree le deplacament elementaire suivant ou l'evenement d'arrivee
+	 */
 	@Override
 	public boolean execute(){
 		rob.setPosition(dest);
@@ -28,7 +35,6 @@ public class DeplacerRobot extends Evenement{
 			sim.ajouteEvenement(new DeplacerRobot(
 					newdate,rob,sim.data.map.getVoisin(dest, rob.getDestination().poll()),sim));
 		}
-		rob.setDeplacement(false);
 		return true;
 		
 		

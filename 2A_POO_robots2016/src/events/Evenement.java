@@ -1,8 +1,9 @@
 package events;
 
 public abstract class Evenement {
-	long date;
+	long date; //Date de la fin de l'evenement;
 
+	//gett/set
 	public long getDate(){
 		return this.date;
 	}
@@ -11,6 +12,10 @@ public abstract class Evenement {
 		this.date=date;
 	}
 	
+	/*
+	 * est appelee lorsque date==simulateur.time
+	 * execute les actions liées a l'evenement
+	 */
 	public abstract boolean execute();
 	
 }

@@ -33,17 +33,9 @@ public class Robot_A_Roues extends Robot{
 	@Override
 	public void remplirReservoir(Carte carte){
 		if (carte.unVoisinEau(this.position)) {
-			if (i == 2) {
-				super.capacite += 9;
-				i = 0;
-			} else {
-				super.capacite += 8;
-				i++;
-			}
-
-			if (super.capacite > 5000){
-				super.capacite = 5000;
-			}
+			this.capacite=this.getCapaciteMax();
+		}else {
+			System.out.println("erreur:Le robot a roues ne peut pas remplir l'eau!");
 		}
 	}
 

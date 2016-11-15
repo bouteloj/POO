@@ -5,7 +5,6 @@ import src.Case;
 import src.NatureTerrain;
 
 public class Robot_A_Chenilles extends Robot {
-	int i = 0;	
 
     public Robot_A_Chenilles(Case pos, int vitesse){
 		super(pos,vitesse);
@@ -35,17 +34,9 @@ public class Robot_A_Chenilles extends Robot {
 	@Override
 	public void remplirReservoir(Carte carte){
 		if (carte.unVoisinEau(this.position)) {
-			if (i == 2) {
-				super.capacite += 6;
-				i = 0;
-			} else {
-				super.capacite += 7;
-				i++;
-			}
-
-			if (super.capacite > 2000){
-				super.capacite = 2000;
-			}
+			this.capacite=this.getCapaciteMax();
+		}else {
+			System.out.println("erreur:Le robot a chenille ne peut pas remplir l'eau!");
 		}
 	}
 

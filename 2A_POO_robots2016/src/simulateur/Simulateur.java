@@ -1,8 +1,10 @@
 package simulateur;
 
 
+import events.DeplacerRobot;
 import events.Evenement;
 import events.PrioEvent;
+import events.RobotArrive;
 import gui.GUISimulator;
 import gui.ImageElement;
 import gui.Rectangle;
@@ -17,21 +19,23 @@ import javax.swing.JFrame;
 import robots.Robot;
 import src.DonneesSimulation;
 import src.Incendie;
+import staticF.Utilities;
 
 
 
 
 public class Simulateur implements Simulable {
 
-	public DonneesSimulation data;
-	public GUISimulator gui;
-	private long time;
-	private PriorityQueue<Evenement> events;
-	int x;
-	String path;
+	public DonneesSimulation data; //donnees de la simulation
+	public GUISimulator gui; //affichage
+	private long time; //temps du programe (en secondes)
+	private PriorityQueue<Evenement> events; //file de priorité des evenements a traiter
+	int x; //taille de la fenetre
+	String path; //chemin vers la carte a lire
+	boolean fini=false; //true ssi tout les incendies ont été eteints.
 	
 	public Simulateur(String pathMap){
-		x = 400;//modify for window size
+		x = 600;//modify for window size
 		this.path=pathMap;
 		data=new DonneesSimulation(pathMap);
 		gui = new GUISimulator(x,x,Color.black,this);
@@ -44,15 +48,23 @@ public class Simulateur implements Simulable {
 		return this.time;
 	}
 	
+	public void ajouteEvenement(Evenement event){
+		this.events.add(event);
+	}
+	
 	@Override
 	public void next() {
 		this.time++;
-
+		chefPompier();
 		if(this.events.size()==0){return;}
 		while(this.events.peek().getDate()<this.time){
 			this.events.poll().execute();
 			if(this.events.size()==0){break;}
 
+		}
+		if (data.incendies.size()==0 && !fini){
+			System.out.println("Tous les incendies ont ete eteints! \n \t WELL DONE!");
+			fini=true;
 		}
 		Afficher();
 	}
@@ -65,7 +77,7 @@ public class Simulateur implements Simulable {
 		Afficher();
 
 	}
-	// On affiche la simulation ayant pour données data
+	// Affichage de l'etat courant de la simulation
 	public void Afficher(){
 		gui.reset();
 		
@@ -96,25 +108,85 @@ public class Simulateur implements Simulable {
 			}
 		}
 		
-		Temp = data.incendies.getFirst();
 		ListIterator<Incendie> IncendieIterator=data.incendies.listIterator(0);
 		while (IncendieIterator.hasNext()){
-			gui.addGraphicalElement(new ImageElement(Temp.position.getColonne()*tailleCaseAffichage,Temp.position.getLigne()*tailleCaseAffichage,fileNameincend,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 			Temp = IncendieIterator.next();
+			gui.addGraphicalElement(new ImageElement(Temp.position.getColonne()*tailleCaseAffichage,Temp.position.getLigne()*tailleCaseAffichage,fileNameincend,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 		}
-		gui.addGraphicalElement(new ImageElement(Temp.position.getColonne()*tailleCaseAffichage,Temp.position.getLigne()*tailleCaseAffichage,fileNameincend,tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 
-		Temp2 = data.robots.getFirst();
 		ListIterator<Robot> robotIterator=data.robots.listIterator(0);
 		while (robotIterator.hasNext()){
-			gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getColonne()*tailleCaseAffichage,Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getpicname(),tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 			Temp2 = robotIterator.next();
+			gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getColonne()*tailleCaseAffichage,Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getpicname(),tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 		}
-		gui.addGraphicalElement(new ImageElement(Temp2.getPosition().getColonne()*tailleCaseAffichage,Temp2.getPosition().getLigne()*tailleCaseAffichage,Temp2.getpicname(),tailleCaseAffichage,tailleCaseAffichage,new JFrame()));
 
 	}
 	
-	public void ajouteEvenement(Evenement event){
-		this.events.add(event);
+	
+	/*
+	 * Affectation des robots aux incendies
+	 * Methode:
+	 * On affecte chaque robot a l'incendie non deja attribué accessible le plus proche.
+	 * si aucun incendie non deja attribué n'est accessible(ou existant), on affecte le 
+	 * 		robot a l'incendie accessible le plus proche
+	 */
+	private void chefPompier(){
+		ListIterator<Incendie> itrIncend;
+		ListIterator<Robot> itrRob=data.robots.listIterator();
+		Robot tempr;
+		Incendie tempi;
+		double dureeTrajetmin;
+		double dureeTrajet;
+		Incendie incendieChoisi=null;
+		long dateinit;
+
+		while (itrRob.hasNext()){
+			tempr=itrRob.next();
+			if (!tempr.getDeplacement()){
+				incendieChoisi=null;
+				dureeTrajetmin=Double.MAX_VALUE;
+				itrIncend=data.incendies.listIterator();
+				while (itrIncend.hasNext()){
+					tempi=itrIncend.next();
+					if(!tempi.getAssigne()){
+						dureeTrajet=Utilities.poids(this,tempr,tempr.getPosition(),
+								Utilities.dijkstra(this,tempr,tempi.getPosition()));
+						if(dureeTrajet<dureeTrajetmin){
+							dureeTrajetmin=dureeTrajet;
+							incendieChoisi=tempi;
+						}
+					}
+				}
+				if(dureeTrajetmin==Double.MAX_VALUE){
+					itrIncend=data.incendies.listIterator();
+					while (itrIncend.hasNext()){
+						tempi=itrIncend.next();
+						dureeTrajet=Utilities.poids(this,tempr,tempr.getPosition(),
+								Utilities.dijkstra(this,tempr,tempi.getPosition()));
+						if(dureeTrajet<dureeTrajetmin){
+							dureeTrajetmin=dureeTrajet;
+							incendieChoisi=tempi;
+						}
+					}
+				}
+				if (incendieChoisi==null){
+					return;
+				}
+				incendieChoisi.setAssigne(true);
+				tempr.setDeplacement(true);
+				tempr.destination=Utilities.dijkstra(this,tempr,incendieChoisi.getPosition());
+				if(tempr.getDestination().size()==0){
+					ajouteEvenement(new RobotArrive(this.time,tempr,this));
+				} else {
+					dateinit=(long) (this.time + tempr.getTempsDeplacement(tempr.getPosition(),
+							data.map.getVoisin(tempr.getPosition(), tempr.getDestination().peek()),
+							data.map.getTailleCases()));
+					ajouteEvenement(new DeplacerRobot(dateinit, 
+							tempr,data.map.getVoisin(tempr.getPosition(), 
+									tempr.getDestination().poll()),this));
+				}
+			}
+		}
 	}
+	
 }

@@ -8,12 +8,15 @@ import src.Carte;
 import src.Case;
 import src.Incendie;
 
+/*
+ * arrivee du robot sur sa case de destination
+ */
 public class RobotArrive extends Evenement{
 	
 	private Simulateur simul;
-	private Robot robot;
-	private Incendie incendie;
-	private Carte carte;
+	private Robot robot; //robot concerné
+	private Incendie incendie; //incendie present sur la case(le cas echeant, faux incendie hors de la carte sinon)
+	private Carte carte; //simul.data.map, pour lisibilité
 	
 	public RobotArrive(long date, Robot r,Simulateur s) {
 		super(date);
@@ -32,7 +35,12 @@ public class RobotArrive extends Evenement{
 			this.incendie=new Incendie(new Case(-1,-1),1);
 		}
 	}
-
+	/*
+	 * enclanche la prise de decision du robot:
+	 * -eteindre incendie si present
+	 * -se remplire si pas incendie et reservoire vide
+	 * -se rendre disponible si l'incendie visé est deja eteint
+	 */
 	@Override
 	public boolean execute(){
 		System.out.println("Le robot est arrive");
@@ -52,8 +60,9 @@ public class RobotArrive extends Evenement{
 				// Il y a erreur car on ne doit pas avoir d'appel � RobotArrive alors que le robot n'a 
 				// plus d'eau et qu'il n'est pas a cote ou sur un point d'eau
 				else{
-					System.out.println("Erreur");
-					return false;
+					robot.setDeplacement(false);
+					System.out.println("incendie deja eteint");
+					return true;
 				}
 			}
 			// Dans ce cas le robot est sur un incendie et doit commencer � l'�teindre
@@ -70,7 +79,8 @@ public class RobotArrive extends Evenement{
 			/* Dans ce cas le robot est arrive sur un point ou il n'y a ni point d'eau a 
 			 proximite ni d'incendie. Il y a certainement une erreur ou c'est la fin du programme*/
 		}else{
-			System.out.println("Erreur: le robot est arrive sur une case n'ayant ni point d'eau ou incendie. Soit le programme est termine, soit il y a un probleme");
+			System.out.println("le robot est arrive sur une case n'ayant ni point d'eau ou incendie.");
+			robot.setDeplacement(false);
 			return false;
 		}
 		return true;

@@ -2,6 +2,9 @@ package staticF;
 
 import java.util.Comparator;
 
+/*
+ * Comparateur de la file de priorite des noeuds a traiter par l'algorithme de Dijkstra
+ */
 public class priodjkstra implements Comparator<CasePourDijkstra>{
 
 	@Override

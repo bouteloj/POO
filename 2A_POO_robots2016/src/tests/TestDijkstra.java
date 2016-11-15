@@ -4,6 +4,9 @@ import simulateur.Simulateur;
 import staticF.Utilities;
 import events.DeplacerRobot;
 
+/*
+ * test simple de l'implementation du plus court chemin;
+ */
 public class TestDijkstra {
 	public static void main(String[] args) {
 		Simulateur simulate = new Simulateur ("cartes/carteSujet.map");

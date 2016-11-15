@@ -14,6 +14,10 @@ public class DonneesSimulation {
 	public LinkedList<Robot> robots;
 	public LinkedList<Incendie> incendies;
 	
+	/*
+	 * construit les donnees par appel a LecteurDonnees
+	 * @param: path le chemin ers la carte
+	 */
 	public DonneesSimulation(String Path){
 		map=new Carte();
 		map.ListeEau=new LinkedList<Case>();

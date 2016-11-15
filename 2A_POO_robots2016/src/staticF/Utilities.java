@@ -12,6 +12,13 @@ import src.Direction;
 public class Utilities {
 	
 	
+	/*
+	 * Algorithme du plus court chemin de Dijkstra
+	 * Renvoie la liste des directions des deplacements elementaires du robot vers sa destination
+	 * @param simul: simulateur
+	 * @param rob: robot a deplacer;
+	 * @param dest: case de destination;
+	 */
 	
 	public static LinkedList<Direction> dijkstra(Simulateur simul, Robot rob, Case dest){
 		//init graph
@@ -29,7 +36,7 @@ public class Utilities {
 		aTraiter.add(graph[rob.getPosition().getLigne()][rob.getPosition().getColonne()]);
 		CasePourDijkstra arrivee=graph[dest.getLigne()][dest.getColonne()];
 		
-		
+		//calcul iteratif des plus courts chemins
 		CasePourDijkstra courant=null;
 		while(aTraiter.size()!=0 && !trouve){
 			courant=aTraiter.poll();
@@ -85,6 +92,7 @@ public class Utilities {
 			return null;
 		}
 		
+		//Remontee du graphe et generation de la liste resultat;
 		LinkedList<Direction> resultat=new LinkedList<Direction>();
 		while (courant.incidente!=null){
 			resultat.addFirst(case2Dir(courant.incidente,courant));
@@ -94,7 +102,9 @@ public class Utilities {
 		
 	}
 
-	//direction pour aller de c1 a c2
+	/*
+	 * direction pour aller de c1 a c2
+	 */
 	private static Direction case2Dir(CasePourDijkstra c1,CasePourDijkstra c2){
 		if (c1.l-c2.l==1){
 			return Direction.NORD;
@@ -113,7 +123,17 @@ public class Utilities {
 
 	}
 	
+	/*
+	 * temps nessecaire au robot rob pour parcourir la liste de 
+	 * 		deplacements elementaires partant de la case c
+	 */
 	public static double poids(Simulateur simul, Robot rob, Case c, LinkedList<Direction> list){
+		if(list==null){
+			return Double.MAX_VALUE;
+		}
+		if(list.size()==0){
+			return 0;
+		}
 		Iterator<Direction> itr = list.iterator();
 		Case c2 = simul.data.map.getVoisin(c, itr.next());
 		double p = rob.getTempsDeplacement( c, c2, simul.data.map.getTailleCases());

@@ -2,7 +2,9 @@ package events;
 
 import java.util.Comparator;
 
-
+/*
+ * comparateur chronologique pour la file de priorité d'evenements.
+ */
 public class PrioEvent implements Comparator<Evenement>{
 
 	@Override

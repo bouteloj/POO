@@ -26,7 +26,7 @@ public class Robot_A_Pattes extends Robot {
 	
 	@Override
 	public boolean deverserEau(Incendie incend){
-		this.capacite = Integer.MAX_VALUE;
+		this.capacite = Integer.MAX_VALUE; //robot a poudre: reservoire jamais vide
 		return true;
 		
 	}
